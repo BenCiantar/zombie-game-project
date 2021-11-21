@@ -1,4 +1,4 @@
-//DECLARE global variables
+//Declare global variables
 let center, player, gameStarted, playerControls;
 
 import playerImageSrc from "../assets/player_9mm.png";
@@ -35,6 +35,8 @@ class Game extends Phaser.Scene {
 
     update() {
         if (gameStarted) {
+
+            //Listen for player movement inputs
             if (playerControls.left.isDown) {
                 player.setVelocityX(-160);
             }
