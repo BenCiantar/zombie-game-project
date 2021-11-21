@@ -16,6 +16,7 @@ class Game extends Phaser.Scene {
         }
 
         player = this.physics.add.sprite(center.x, center.y, "player");
+        player.setCollideWorldBounds(true);
 
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turn, this);
