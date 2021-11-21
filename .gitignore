@@ -38,3 +38,4 @@ parcel-bundle-reports/
 sourcemap-info.json
 
 *.css
+styles/css/style.css
