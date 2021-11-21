@@ -6,6 +6,7 @@ import playerImageSrc from "../assets/player_9mm.png";
 class Game extends Phaser.Scene {
     preload() {
         this.load.image("player", playerImageSrc);
+        this.input.maxPointers = 1; //Only allow one cursor input
     }
 
     create() {
@@ -15,6 +16,9 @@ class Game extends Phaser.Scene {
         }
 
         player = this.physics.add.sprite(center.x, center.y, "player");
+
+        //When cursor is moved, run function to update sprite to face it
+        this.input.on('pointermove', turn, this);
 
         gameStarted = true; //Set this to the startgame button on the menu
         
@@ -49,8 +53,21 @@ class Game extends Phaser.Scene {
                 player.setVelocityY(0);
             }
         }
+
+
     }
 }
-//FUNCTIONS THAT THE GAME USES GO DOWN HERE
 
 export default Game;
+
+//Get the angle between player position and cursor position, then turn player to face cursor
+//Triggers whenever cursor is moved
+const turn = function (pointer) {
+        let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
+            player.x, 
+            player.y, 
+            pointer.x, 
+            pointer.y);
+
+        player.setAngle(angle);
+    }
