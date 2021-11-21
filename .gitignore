@@ -3,9 +3,30 @@
 *.sass.map
 *.scss.map
 
-node_modules
-
-styles/css
-
-.parcel-cache
+node_modules/
+/target/
+.DS_Store
+package-lock.json
+coverage/
+.nyc_output/
+.cache/
+.parcel-cache/
+dist/
+lib/
+.vscode/
+.idea/
+*.min.js
+*.mdb
+dist/index.d6acdb22.js.map
+dist/index.d6acdb22.js
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+tmp
+parcel-bundle-reports/
+.verdaccio_storage/
+sourcemap-info.json
 
