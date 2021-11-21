@@ -1,5 +1,12 @@
 .sass-cache/
 *.css.map
+*.css
+*.sass.map
+*.scss.map
+
+/styles/css/
+*.css.map
+*.css
 *.sass.map
 *.scss.map
 
@@ -30,3 +37,4 @@ parcel-bundle-reports/
 .verdaccio_storage/
 sourcemap-info.json
 
+*.css
