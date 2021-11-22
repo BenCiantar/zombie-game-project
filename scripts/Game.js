@@ -63,14 +63,13 @@ class Game extends Phaser.Scene {
         basicZombie.setScale(0.65);
         basicZombie.anims.play("zombiebasic");
 
-
+        
     }
 
     update() {
         if (gameStarted) {
 
-
-
+            this.physics.moveToObject(basicZombie, player, 70);
 
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
