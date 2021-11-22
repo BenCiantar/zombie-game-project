@@ -74,20 +74,26 @@ class Game extends Phaser.Scene {
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
                 player.setVelocityX(-160);
+                turnZombie(player);
             }
             else if (playerControls.right.isDown) {
                 player.setVelocityX(160);
+                turnZombie(player);
             } else {
                 player.setVelocityX(0);
+                turnZombie(player);
             } 
 
             if (playerControls.up.isDown) {
                 player.setVelocityY(-160);
+                turnZombie(player);
             } 
             else if (playerControls.down.isDown) {
                 player.setVelocityY(160);
+                turnZombie(player);
             } else {
                 player.setVelocityY(0);
+                turnZombie(player);
             }
         }
 
@@ -109,6 +115,16 @@ const turn = function (pointer) {
             pointer.y);
 
         player.setAngle(angle);
+    }
+
+    const turnZombie = function (playerPos) {
+        let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
+            basicZombie.x, 
+            basicZombie.y, 
+            playerPos.x, 
+            playerPos.y);
+
+        basicZombie.setAngle(angle + 90);
     }
 
     function bounce(player, basicZombie) {
