@@ -29,6 +29,7 @@ var config = {
     default: "arcade",
     arcade: {
       gravity: false,
+      //debug: true
     },
   },
 };
