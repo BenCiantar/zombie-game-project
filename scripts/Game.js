@@ -1,8 +1,10 @@
 //Declare global variables
-let center, player, gameStarted, playerControls;
+let center, player, gameStarted, playerControls, basicZombie;
 
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
+import zombieAtlas from "../assets/zombiebasic.json";
+import zombiePng from "../assets/zombiebasic.png";
 
 
 class Game extends Phaser.Scene {
@@ -10,6 +12,7 @@ class Game extends Phaser.Scene {
         this.load.image("player", playerImageSrc);
         this.load.image("bg", bgImageSrc);
         this.input.maxPointers = 1; //Only allow one cursor input
+        this.load.multiatlas("zombiebasic", zombieAtlas, zombiePng);
     }
 
     create() {
@@ -23,6 +26,8 @@ class Game extends Phaser.Scene {
 
         player = this.physics.add.sprite(center.x, center.y, "player");
         player.setCollideWorldBounds(true);
+        player.body.setSize(22, 22);
+        player.setOffset(24, 19);
 
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turn, this);
@@ -38,6 +43,11 @@ class Game extends Phaser.Scene {
             down:Phaser.Input.Keyboard.KeyCodes.S,
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D});
+       
+        basicZombie = this.physics.add.sprite(center.x - 100, center.y - 100, "zombiebasic");
+        basicZombie.setScale(0.65);
+
+
     }
 
     update() {
@@ -63,6 +73,8 @@ class Game extends Phaser.Scene {
             }
         }
 
+        this.physics.add.collider(player, basicZombie, bounce, null, this);
+
 
     }
 }
@@ -79,4 +91,11 @@ const turn = function (pointer) {
             pointer.y);
 
         player.setAngle(angle);
+    }
+
+    function bounce(player, basicZombie) {
+        //INSERT BOUNCE ANIMATION HERE
+        player.setVelocity(0.1);
+        basicZombie.setVelocity(0.1);
+
     }
