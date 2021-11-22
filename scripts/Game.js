@@ -44,14 +44,33 @@ class Game extends Phaser.Scene {
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D});
        
+        
+
+        this.anims.create({key: "zombiebasic", 
+            frames: [
+                {key: "zombiebasic", frame: "zombiebasic1.png"},
+                {key: "zombiebasic", frame: "zombiebasic2.png"},
+                {key: "zombiebasic", frame: "zombiebasic3.png"},
+                {key: "zombiebasic", frame: "zombiebasic4.png"},
+                {key: "zombiebasic", frame: "zombiebasic5.png"},
+                {key: "zombiebasic", frame: "zombiebasic6.png"},
+            ], 
+            frameRate: 7, 
+            repeat: -1
+        })
+
         basicZombie = this.physics.add.sprite(center.x - 100, center.y - 100, "zombiebasic");
         basicZombie.setScale(0.65);
+        basicZombie.anims.play("zombiebasic");
 
 
     }
 
     update() {
         if (gameStarted) {
+
+
+
 
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
@@ -94,7 +113,6 @@ const turn = function (pointer) {
     }
 
     function bounce(player, basicZombie) {
-        //INSERT BOUNCE ANIMATION HERE
         player.setVelocity(0.1);
         basicZombie.setVelocity(0.1);
 
