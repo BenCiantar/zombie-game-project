@@ -7,6 +7,8 @@ import zombieAtlas from "../assets/zombiebasic.json";
 import zombiePng from "../assets/zombiebasic.png";
 
 
+
+
 class Game extends Phaser.Scene {
     preload() {
         this.load.image("player", playerImageSrc);
@@ -44,8 +46,6 @@ class Game extends Phaser.Scene {
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D});
        
-        
-
         this.anims.create({key: "zombiebasic", 
             frames: [
                 {key: "zombiebasic", frame: "zombiebasic1.png"},
@@ -57,19 +57,18 @@ class Game extends Phaser.Scene {
             ], 
             frameRate: 7, 
             repeat: -1
-        })
-
+        });
+        // spawnZombie(this, basicZombie, "zombiebasic");
         basicZombie = this.physics.add.sprite(center.x - 100, center.y - 100, "zombiebasic");
         basicZombie.setScale(0.65);
         basicZombie.anims.play("zombiebasic");
-
-        
     }
 
     update() {
         if (gameStarted) {
 
             this.physics.moveToObject(basicZombie, player, 70);
+            this.physics.add.collider(player, basicZombie, bounce, null, this);
 
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
@@ -96,10 +95,6 @@ class Game extends Phaser.Scene {
                 turnZombie(player);
             }
         }
-
-        this.physics.add.collider(player, basicZombie, bounce, null, this);
-
-
     }
 }
 
@@ -132,3 +127,15 @@ const turn = function (pointer) {
         basicZombie.setVelocity(0.1);
 
     }
+
+
+    // const spawnZombie = function (game, type, ref) {
+
+    // }
+
+    function spawnZombieBottom() {
+
+    }
+
+
+
