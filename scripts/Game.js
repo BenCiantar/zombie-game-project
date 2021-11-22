@@ -2,10 +2,13 @@
 let center, player, gameStarted, playerControls;
 
 import playerImageSrc from "../assets/player_9mm.png";
+import bgImageSrc from "../assets/bg-mud.png";
+
 
 class Game extends Phaser.Scene {
     preload() {
         this.load.image("player", playerImageSrc);
+        this.load.image("bg", bgImageSrc);
         this.input.maxPointers = 1; //Only allow one cursor input
     }
 
@@ -13,7 +16,10 @@ class Game extends Phaser.Scene {
         center = {
             x:this.physics.world.bounds.width / 2,
             y:this.physics.world.bounds.height / 2
-        }
+        };
+
+        //Creates repeating tile background
+        this.add.tileSprite(0, 0, center.x * 4, center.y * 4, "bg");
 
         player = this.physics.add.sprite(center.x, center.y, "player");
         player.setCollideWorldBounds(true);
