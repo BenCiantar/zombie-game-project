@@ -1,13 +1,10 @@
 //Declare global variables
-let center, player, gameStarted, playerControls, basicZombie;
+let positions, player, gameStarted, playerControls, basicZombie, zombies, thisGame;
 
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
 import zombieAtlas from "../assets/zombiebasic.json";
 import zombiePng from "../assets/zombiebasic.png";
-
-
-
 
 class Game extends Phaser.Scene {
     preload() {
@@ -18,21 +15,26 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        center = {
-            x:this.physics.world.bounds.width / 2,
-            y:this.physics.world.bounds.height / 2
+        thisGame = this;
+        positions = {
+            centerX: this.physics.world.bounds.width / 2,
+            centerY: this.physics.world.bounds.height / 2,
+            topEdge: 0,
+            rightEdge: this.physics.world.bounds.width,
+            bottomEdge: this.physics.world.bounds.height,
+            leftEdge: 0
         };
 
         //Creates repeating tile background
-        this.add.tileSprite(0, 0, center.x * 4, center.y * 4, "bg");
+        this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
 
-        player = this.physics.add.sprite(center.x, center.y, "player");
+        player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
         player.body.setSize(22, 22);
         player.setOffset(24, 19);
 
         //When cursor is moved, run function to update sprite to face it
-        this.input.on('pointermove', turn, this);
+        this.input.on('pointermove', turnPlayer, this);
 
         gameStarted = true; //Set this to the startgame button on the menu
         
@@ -44,7 +46,7 @@ class Game extends Phaser.Scene {
             {up:Phaser.Input.Keyboard.KeyCodes.W,
             down:Phaser.Input.Keyboard.KeyCodes.S,
             left:Phaser.Input.Keyboard.KeyCodes.A,
-            right:Phaser.Input.Keyboard.KeyCodes.D});
+            right:Phaser.Input.Keyboard.KeyCodes.D,});
        
         this.anims.create({key: "zombiebasic", 
             frames: [
@@ -58,41 +60,44 @@ class Game extends Phaser.Scene {
             frameRate: 7, 
             repeat: -1
         });
-        // spawnZombie(this, basicZombie, "zombiebasic");
-        basicZombie = this.physics.add.sprite(center.x - 100, center.y - 100, "zombiebasic");
-        basicZombie.setScale(0.65);
-        basicZombie.anims.play("zombiebasic");
+
+        zombies = this.physics.add.group();
     }
 
     update() {
         if (gameStarted) {
-
-            this.physics.moveToObject(basicZombie, player, 70);
-            this.physics.add.collider(player, basicZombie, bounce, null, this);
+            this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
+            // this.physics.add.collider(zombies.getChildren(), zombies.getChildren(), bounce, null, this);
+            //Add collision for enemies?
 
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
                 player.setVelocityX(-160);
-                turnZombie(player);
+                turnZombies(player);
             }
             else if (playerControls.right.isDown) {
                 player.setVelocityX(160);
-                turnZombie(player);
+                turnZombies(player);
             } else {
                 player.setVelocityX(0);
-                turnZombie(player);
+                turnZombies(player);
             } 
 
             if (playerControls.up.isDown) {
                 player.setVelocityY(-160);
-                turnZombie(player);
+                turnZombies(player);
             } 
             else if (playerControls.down.isDown) {
                 player.setVelocityY(160);
-                turnZombie(player);
+                turnZombies(player);
             } else {
                 player.setVelocityY(0);
-                turnZombie(player);
+                turnZombies(player);
+            }
+
+            let randomZombieSpawn = (Math.floor(Math.random() * 1000));
+            if (randomZombieSpawn > 900) {
+                addZombies();
             }
         }
     }
@@ -102,7 +107,7 @@ export default Game;
 
 //Get the angle between player position and cursor position, then turn player to face cursor
 //Triggers whenever cursor is moved
-const turn = function (pointer) {
+const turnPlayer = function (pointer) {
         let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
             player.x, 
             player.y, 
@@ -112,30 +117,45 @@ const turn = function (pointer) {
         player.setAngle(angle);
     }
 
-    const turnZombie = function (playerPos) {
+const turnZombies = function (playerPos) {
+
+    zombies.getChildren().forEach(function(item) {
         let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
-            basicZombie.x, 
-            basicZombie.y, 
-            playerPos.x, 
-            playerPos.y);
+            item.x, 
+            item.y, 
+            player.x, 
+            player.y);
+    
+        item.setAngle(angle + 90);
+    }, thisGame);
+}
 
-        basicZombie.setAngle(angle + 90);
+//Collision event between player and zombies
+function bounce(player, zombie) {
+    player.setVelocity(0.1);
+    zombie.setVelocity(0.1);
+}
+
+function addZombies() {
+    spawnZombie()
+
+    Phaser.Utils.Array.Each(
+        zombies.getChildren(), thisGame.physics.moveToObject, thisGame.physics, player, 70)
+}
+
+function spawnZombie() {
+    let randomDirection = Math.floor(Math.random() * 4);
+    if (randomDirection == 0) {
+        let newZombie = zombies.create((Math.floor(Math.random() * positions.rightEdge)), positions.topEdge - 20, "zombiebasic").setScale(0.65);
+        newZombie.anims.play("zombiebasic");
+    } else if (randomDirection == 1) {
+        let newZombie = zombies.create(positions.rightEdge + 20, (Math.floor(Math.random() * positions.bottomEdge)), "zombiebasic").setScale(0.65);
+        newZombie.anims.play("zombiebasic");
+    } else if (randomDirection == 2) {
+        let newZombie = zombies.create((Math.floor(Math.random() * positions.rightEdge)), positions.bottomEdge + 20, "zombiebasic").setScale(0.65);
+        newZombie.anims.play("zombiebasic");
+    } else if (randomDirection == 3) {
+        let newZombie = zombies.create(positions.leftEdge - 20, (Math.floor(Math.random() * positions.bottomEdge)), "zombiebasic").setScale(0.65);
+        newZombie.anims.play("zombiebasic");
     }
-
-    function bounce(player, basicZombie) {
-        player.setVelocity(0.1);
-        basicZombie.setVelocity(0.1);
-
-    }
-
-
-    // const spawnZombie = function (game, type, ref) {
-
-    // }
-
-    function spawnZombieBottom() {
-
-    }
-
-
-
+}

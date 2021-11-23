@@ -15,7 +15,7 @@
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "parcel index.html -p 6969"
+    "start": "parcel index.html -p 6967"
   },
   "repository": {
     "type": "git",
