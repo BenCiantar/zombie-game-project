@@ -1,13 +1,10 @@
 //Declare global variables
-let center, player, gameStarted, playerControls, basicZombie;
+let positions, player, gameStarted, playerControls, basicZombie;
 
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
 import zombieAtlas from "../assets/zombiebasic.json";
 import zombiePng from "../assets/zombiebasic.png";
-
-
-
 
 class Game extends Phaser.Scene {
     preload() {
@@ -18,15 +15,19 @@ class Game extends Phaser.Scene {
     }
 
     create() {
-        center = {
-            x:this.physics.world.bounds.width / 2,
-            y:this.physics.world.bounds.height / 2
+        positions = {
+            centerX: this.physics.world.bounds.width / 2,
+            centerY: this.physics.world.bounds.height / 2,
+            topEdge: 0,
+            rightEdge: this.physics.world.bounds.width,
+            bottomEdge: this.physics.world.bounds.height,
+            leftEdge: 0
         };
 
         //Creates repeating tile background
-        this.add.tileSprite(0, 0, center.x * 4, center.y * 4, "bg");
+        this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
 
-        player = this.physics.add.sprite(center.x, center.y, "player");
+        player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
         player.body.setSize(22, 22);
         player.setOffset(24, 19);
@@ -59,7 +60,7 @@ class Game extends Phaser.Scene {
             repeat: -1
         });
         // spawnZombie(this, basicZombie, "zombiebasic");
-        basicZombie = this.physics.add.sprite(center.x - 100, center.y - 100, "zombiebasic");
+        basicZombie = this.physics.add.sprite(positions.centerX - 100, positions.centerY - 100, "zombiebasic");
         basicZombie.setScale(0.65);
         basicZombie.anims.play("zombiebasic");
     }
@@ -93,6 +94,28 @@ class Game extends Phaser.Scene {
             } else {
                 player.setVelocityY(0);
                 turnZombie(player);
+            }
+        }
+
+        let randomZombieSpawn = (Math.floor(Math.random() * 1000));
+        if (randomZombieSpawn > 900) {
+            let randomDirection = Math.floor(Math.random() * 4);
+            if (randomDirection == 0) {
+                basicZombie = this.physics.add.sprite((Math.floor(Math.random() * positions.rightEdge)), positions.topEdge - 20, "zombiebasic");
+                basicZombie.setScale(0.65);
+                basicZombie.anims.play("zombiebasic");
+            } else if (randomDirection == 1) {
+                basicZombie = this.physics.add.sprite(positions.rightEdge + 20, (Math.floor(Math.random() * positions.bottomEdge)), "zombiebasic");
+                basicZombie.setScale(0.65);
+                basicZombie.anims.play("zombiebasic");
+            } else if (randomDirection == 2) {
+                basicZombie = this.physics.add.sprite((Math.floor(Math.random() * positions.rightEdge)), positions.bottomEdge + 20, "zombiebasic");
+                basicZombie.setScale(0.65);
+                basicZombie.anims.play("zombiebasic");
+            } else if (randomDirection == 3) {
+                basicZombie = this.physics.add.sprite(positions.leftEdge - 20, (Math.floor(Math.random() * positions.bottomEdge)), "zombiebasic");
+                basicZombie.setScale(0.65);
+                basicZombie.anims.play("zombiebasic");
             }
         }
     }
