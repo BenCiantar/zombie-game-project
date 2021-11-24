@@ -24,7 +24,7 @@ var config = {
 
     zoom: 1,  // Size of game canvas = game size * zoom
 },
-  scene: [ Game ],
+  scene: [ Menu, Game, GameOver ],
   physics: {
     default: "arcade",
     arcade: {

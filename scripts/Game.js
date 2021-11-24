@@ -11,6 +11,10 @@ import bulletPng from "../assets/flaming_bullet.png";
 
 
 class Game extends Phaser.Scene {
+    constructor() { 
+        super({key: 'GameScene'}); 
+    }
+
     preload() {
         this.load.image("player", playerImageSrc);
         this.load.image("bg", bgImageSrc);
@@ -156,6 +160,7 @@ const turnZombies = function (type) {
 function bounce(player, zombie) {
     player.setVelocity(0.1);
     zombie.setVelocity(0.1);
+    this.scene.start('GameOverScene');
 }
 
 function moveAllZombies() {
