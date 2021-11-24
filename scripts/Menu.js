@@ -34,7 +34,7 @@ class Menu extends Phaser.Scene {
     startGameButton.on('pointerover', () => { console.log('add highlight animation'); });
     startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
     startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
-    startGameButton.on('pointerup', () => { console.log('start game scene'); });
+    startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
 
     }
 
