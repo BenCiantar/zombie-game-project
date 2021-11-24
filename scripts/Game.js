@@ -63,6 +63,7 @@ class Game extends Phaser.Scene {
 
         let car1 = this.add.sprite(600, 300, "car");
         this.physics.add.existing(car1, true);
+        car1.rotation = 20;
         this.cars.add(car1);
 
         let car2 = this.add.sprite(1300, 600, "car");
