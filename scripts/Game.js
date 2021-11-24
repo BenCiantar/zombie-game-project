@@ -11,6 +11,10 @@ import bulletPng from "../assets/flaming_bullet.png";
 
 
 class Game extends Phaser.Scene {
+    constructor() { 
+        super({key: 'GameScene'}); 
+    }
+
     preload() {
         this.load.image("player", playerImageSrc);
         this.load.image("bg", bgImageSrc);
