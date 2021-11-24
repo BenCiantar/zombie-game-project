@@ -160,6 +160,7 @@ const turnZombies = function (type) {
 function bounce(player, zombie) {
     player.setVelocity(0.1);
     zombie.setVelocity(0.1);
+    this.scene.start('GameOverScene');
 }
 
 function moveAllZombies() {
