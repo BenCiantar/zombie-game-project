@@ -63,12 +63,10 @@ class Game extends Phaser.Scene {
 
         let car1 = this.add.sprite(600, 300, "car");
         this.physics.add.existing(car1, true);
-        car1.rotation = 20;
         this.cars.add(car1);
 
         let car2 = this.add.sprite(1300, 600, "car");
         this.physics.add.existing(car2, true);
-        car2.rotation = 200;
         this.cars.add(car2);
         
         //When cursor is moved, run function to update sprite to face it
@@ -199,6 +197,7 @@ function bounce(player, zombie) {
     player.setVelocity(0.1);
     zombie.setVelocity(0.1);
     this.scene.start('GameOverScene');
+    
 }
 
 function moveAllZombies() {
