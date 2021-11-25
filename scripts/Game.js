@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, roofs;
 
 
 import playerImageSrc from "../assets/player_9mm.png";
@@ -7,6 +7,10 @@ import bgImageSrc from "../assets/bg-mud.png";
 import zombieAtlas from "../assets/zombiebasic.json";
 import zombiePng from "../assets/zombiebasic.png";
 import bulletPng from "../assets/flaming_bullet.png";
+import carPng from "../assets/car.png";
+import roof1ImageSrc from "../assets/roof1.jpg";
+import roof2ImageSrc from "../assets/roof2.jpg";
+
 
 
 
@@ -21,6 +25,9 @@ class Game extends Phaser.Scene {
         this.input.maxPointers = 1; //Only allow one cursor input
         this.load.multiatlas("zombiebasic", zombieAtlas, zombiePng);
         this.load.image("flaming_bullet", bulletPng);
+        this.load.image("car", carPng);
+        this.load.image("roof1", roof1ImageSrc);
+        this.load.image("roof2", roof2ImageSrc);
     }
 
     create() {
@@ -39,9 +46,31 @@ class Game extends Phaser.Scene {
 
         player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
-        player.body.setSize(22, 22);
+        player.body.setSize(22, 25);
         player.setOffset(24, 19);
+        
+        this.roofs = this.add.group();
 
+        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250,"roof1");
+        this.physics.add.existing(roof1, true);
+        this.roofs.add(roof1);
+
+        let roof2 = this.add.tileSprite(1100, 200, 1 * 190, 1 * 312,"roof2");
+        this.physics.add.existing(roof2, true);
+        this.roofs.add(roof2);
+
+        this.cars = this.add.group();
+
+        let car1 = this.add.sprite(600, 300, "car");
+        this.physics.add.existing(car1, true);
+        car1.rotation = 20;
+        this.cars.add(car1);
+
+        let car2 = this.add.sprite(1300, 600, "car");
+        this.physics.add.existing(car2, true);
+        car2.rotation = 200;
+        this.cars.add(car2);
+        
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turnPlayer, this);
 
@@ -77,6 +106,15 @@ class Game extends Phaser.Scene {
         if (gameStarted) {
             this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
             this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
+
+            this.physics.add.collider(this.cars, player);
+            this.physics.add.collider(this.cars, zombies.getChildren());
+            this.physics.add.collider(this.cars, fastZombies.getChildren());
+
+            this.physics.add.collider(this.roofs, player);
+            this.physics.add.collider(this.roofs, zombies.getChildren());
+            this.physics.add.collider(this.roofs, fastZombies.getChildren());
+            
             // this.physics.add.collider(zombies.getChildren(), zombies.getChildren(), bounce, null, this);
             //Add collision for enemies?
 
