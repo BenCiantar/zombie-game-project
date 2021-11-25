@@ -10,6 +10,9 @@ import bulletPng from "../assets/flaming_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
+import treePng from "../assets/tree.png";
+import tree2Png from "../assets/tree2.png"
+import treeShadowPng from "../assets/treeshadow.png"
 
 
 
@@ -28,6 +31,10 @@ class Game extends Phaser.Scene {
         this.load.image("car", carPng);
         this.load.image("roof1", roof1ImageSrc);
         this.load.image("roof2", roof2ImageSrc);
+        this.load.image("tree", treePng);
+        this.load.image("tree2", tree2Png);
+        this.load.image("shadow", treeShadowPng);
+
     }
 
     create() {
@@ -52,7 +59,7 @@ class Game extends Phaser.Scene {
         
         this.roofs = this.add.group();
 
-        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250,"roof1");
+        let roof1 = this.add.tileSprite(130, 500, 1 * 280, 1 * 250,"roof1");
         this.physics.add.existing(roof1, true);
         this.roofs.add(roof1);
 
@@ -69,7 +76,52 @@ class Game extends Phaser.Scene {
         let car2 = this.add.sprite(1300, 600, "car");
         this.physics.add.existing(car2, true);
         this.cars.add(car2);
+
+        let treeBottomLeft1 = this.add.sprite(60, 670, "tree");
+        this.physics.add.existing(treeBottomLeft1, true);
+        treeBottomLeft1.setDepth(1)
+
+        let treeBottomLeft2 = this.add.sprite(350, 620, "tree2");
+        this.physics.add.existing(treeBottomLeft2, true);
+        treeBottomLeft2.setDepth(1)
+            let shadow1 = this.add.sprite(370, 610, "shadow");
+            this.physics.add.existing(shadow1, true);
+            shadow1.setScale(1.05);
+
+        let treeMiddle = this.add.sprite(970, 390, "tree");
+        this.physics.add.existing(treeMiddle, true);
+        treeMiddle.setDepth(1)
+            let shadow2 = this.add.sprite(980, 400, "shadow");
+            this.physics.add.existing(shadow2, true);
+            shadow2.setScale(.7);
+
+        let treeTopRight1 = this.add.sprite(1400, 150, "tree");
+        this.physics.add.existing(treeTopRight1, true);
+        treeTopRight1.setDepth(1);
+
+        let treeTopRight2 = this.add.sprite(1500, 200, "tree2");
+        this.physics.add.existing(treeTopRight2, true);
+        treeTopRight2.setDepth(1);
+            let shadow3 = this.add.sprite(1500, 230, "shadow");
+            this.physics.add.existing(shadow3, true);
+
+        let treeTopLeft1 = this.add.sprite(60, 50, "tree");
+        this.physics.add.existing(treeTopLeft1, true);
+        treeTopLeft1.setDepth(1);
+        treeTopLeft1.setScale(1.5);
+            let shadow4 = this.add.sprite(70, 70, "shadow");
+            this.physics.add.existing(shadow4, true);
         
+        let treeTopLeft2 = this.add.sprite(180, 30, "tree2");
+        this.physics.add.existing(treeTopLeft2, true);
+        treeTopLeft2.setDepth(1);
+            let shadow5 = this.add.sprite(190, 50, "shadow");
+            this.physics.add.existing(shadow5, true);
+        //let treeTopLeft3 = this.add.sprite(100, 200, "tree2");
+        //this.physics.add.existing(treeTopLeft3, true);
+        //treeTopLeft3.setDepth(1)
+
+
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turnPlayer, this);
 
