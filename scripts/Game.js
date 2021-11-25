@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, roofs;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame;
 
 
 import playerImageSrc from "../assets/player_9mm.png";
@@ -56,6 +56,8 @@ class Game extends Phaser.Scene {
         // player.body.setSize(10, 10);
         player.body.setCircle(10);
         player.setOffset(25, 25);
+
+////////// ROOFS //////////
         
         this.roofs = this.add.group();
 
@@ -67,6 +69,8 @@ class Game extends Phaser.Scene {
         this.physics.add.existing(roof2, true);
         this.roofs.add(roof2);
 
+////////// CARS //////////
+
         this.cars = this.add.group();
 
         let car1 = this.add.sprite(600, 300, "car");
@@ -76,6 +80,8 @@ class Game extends Phaser.Scene {
         let car2 = this.add.sprite(1300, 600, "car");
         this.physics.add.existing(car2, true);
         this.cars.add(car2);
+
+////////// TREES //////////
 
         let treeBottomLeft1 = this.add.sprite(60, 670, "tree");
         this.physics.add.existing(treeBottomLeft1, true);
@@ -117,9 +123,6 @@ class Game extends Phaser.Scene {
         treeTopLeft2.setDepth(1);
             let shadow5 = this.add.sprite(190, 50, "shadow");
             this.physics.add.existing(shadow5, true);
-        //let treeTopLeft3 = this.add.sprite(100, 200, "tree2");
-        //this.physics.add.existing(treeTopLeft3, true);
-        //treeTopLeft3.setDepth(1)
 
 
         //When cursor is moved, run function to update sprite to face it
@@ -149,6 +152,7 @@ class Game extends Phaser.Scene {
             frameRate: 7, 
             repeat: -1
         });
+
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
     }
@@ -242,7 +246,10 @@ const turnZombies = function (type) {
             player.y);
 
     item.setAngle(angle + 90);
+
     })
+
+    
 }
 
 
@@ -284,4 +291,16 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
+    //newZombie.anchor.set(2);
+
+
+    //let zombieShadow = type.create(posX, posY, ref).setScale(0.65);
+    //zombieShadow.anchor.set(2);
+    //zombieShadow.tint = 0x000000;
+    //zombieShadow.alpha = 0.6;
+
+
+    
+    
+
 }
