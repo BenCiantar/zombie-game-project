@@ -1,5 +1,6 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText;
+
 
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
@@ -10,6 +11,9 @@ import bulletPng from "../assets/flaming_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
+import treePng from "../assets/tree.png";
+import tree2Png from "../assets/tree2.png"
+import treeShadowPng from "../assets/treeshadow.png"
 
 
 class Game extends Phaser.Scene {
@@ -26,9 +30,14 @@ class Game extends Phaser.Scene {
         this.load.image("car", carPng);
         this.load.image("roof1", roof1ImageSrc);
         this.load.image("roof2", roof2ImageSrc);
+        this.load.image("tree", treePng);
+        this.load.image("tree2", tree2Png);
+        this.load.image("shadow", treeShadowPng);
+
     }
 
     create() {
+        gameStarted = true; //Set this to the startgame button on the menu
         thisGame = this;
         //Create object that contains helpful positions
         positions = {
@@ -42,17 +51,13 @@ class Game extends Phaser.Scene {
 
         //Creates repeating tile background
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
+
+////////// ROOFS //////////
         
-        //Create the player and set attributes
-        player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
-        player.setCollideWorldBounds(true);
-        player.body.setCircle(10);
-        player.setOffset(25, 25);
-        
-        //Place buildings on map
         this.roofs = this.add.group();
 
         let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250, "roof1");
+
         this.physics.add.existing(roof1, true);
         this.roofs.add(roof1);
 
@@ -60,7 +65,8 @@ class Game extends Phaser.Scene {
         this.physics.add.existing(roof2, true);
         this.roofs.add(roof2);
 
-        //Place cars on map
+////////// CARS //////////
+      
         this.cars = this.add.group();
 
         let car1 = this.add.sprite(600, 300, "car");
@@ -70,11 +76,66 @@ class Game extends Phaser.Scene {
         let car2 = this.add.sprite(1300, 600, "car");
         this.physics.add.existing(car2, true);
         this.cars.add(car2);
+
+////////// TREES //////////
+
+        let treeBottomLeft1 = this.add.sprite(60, 670, "tree");
+        this.physics.add.existing(treeBottomLeft1, true);
+        treeBottomLeft1.setDepth(1)
+
+        let treeBottomLeft2 = this.add.sprite(350, 620, "tree2");
+        this.physics.add.existing(treeBottomLeft2, true);
+        treeBottomLeft2.setDepth(1)
+            let shadow1 = this.add.sprite(370, 610, "shadow");
+            this.physics.add.existing(shadow1, true);
+            shadow1.setScale(1.05);
+
+        let treeMiddle = this.add.sprite(970, 390, "tree");
+        this.physics.add.existing(treeMiddle, true);
+        treeMiddle.setDepth(1)
+            let shadow2 = this.add.sprite(980, 400, "shadow");
+            this.physics.add.existing(shadow2, true);
+            shadow2.setScale(.7);
+
+        let treeTopRight1 = this.add.sprite(1400, 150, "tree");
+        this.physics.add.existing(treeTopRight1, true);
+        treeTopRight1.setDepth(1);
+
+        let treeTopRight2 = this.add.sprite(1500, 200, "tree2");
+        this.physics.add.existing(treeTopRight2, true);
+        treeTopRight2.setDepth(1);
+            let shadow3 = this.add.sprite(1500, 230, "shadow");
+            this.physics.add.existing(shadow3, true);
+
+        let treeTopLeft1 = this.add.sprite(60, 50, "tree");
+        this.physics.add.existing(treeTopLeft1, true);
+        treeTopLeft1.setDepth(1);
+        treeTopLeft1.setScale(1.5);
+            let shadow4 = this.add.sprite(70, 70, "shadow");
+            this.physics.add.existing(shadow4, true);
         
+        let treeTopLeft2 = this.add.sprite(180, 30, "tree2");
+        this.physics.add.existing(treeTopLeft2, true);
+        treeTopLeft2.setDepth(1);
+            let shadow5 = this.add.sprite(190, 50, "shadow");
+            this.physics.add.existing(shadow5, true);
+
+////////// TIMER TEXT //////////
+
+        var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
+        timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
+        timeText.setDepth(1);
+      
+////////// PLAYER //////////
+
+        //Create the player and set attributes
+        player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
+        player.setCollideWorldBounds(true);
+        player.body.setCircle(10);
+        player.setOffset(25, 25);
+      
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turnPlayer, this);
-
-        gameStarted = true; //Set this to the startgame button on the menu
         
         //Initialise playerControls with directions mapped to arrow keys
         playerControls = this.input.keyboard.createCursorKeys();
@@ -88,6 +149,8 @@ class Game extends Phaser.Scene {
 
         //Fire bullet on click
         this.input.on('pointerdown', fireBullet, this); 
+      
+   ////////// ZOMBIES //////////   
        
         //Zombie walk animation
         this.anims.create({key: "zombiebasic", 
@@ -103,13 +166,20 @@ class Game extends Phaser.Scene {
             repeat: -1
         });
 
+
         //Create zombie groups
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
     }
 
-    update() {
-        //Add colliders for game objects
+    update(time) {
+        if (gameStarted) {
+          
+        var gameRuntime = time * 0.001; //Converted to Seconds
+        timeText.setText("Time Survived: " + Math.round(gameRuntime) + " seconds");    
+      
+ ////////// COLLIDERS //////////
+      
         this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
         this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
 
@@ -140,7 +210,8 @@ class Game extends Phaser.Scene {
         });
 
 
-        //Listen for player movement inputs
+////////// MOVEMENT //////////
+      
         if (playerControls.left.isDown) {
             player.setVelocityX(-160);
             turnZombies(zombies);
@@ -170,10 +241,19 @@ class Game extends Phaser.Scene {
             turnZombies(zombies);
             turnZombies(fastZombies);
         }
+      
+////////// SPAWNING //////////
 
-        let randomZombieSpawn = (Math.floor(Math.random() * 1000));
-        if (randomZombieSpawn > 900) {
-            chooseZombieDirection(zombies, "zombiebasic");
+            let randomZombieSpawn = (Math.floor(Math.random() * 1000));
+            if (randomZombieSpawn > 900) {
+                chooseZombieDirection(zombies, "zombiebasic");
+            }
+
+            let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
+            if (randomFastZombieSpawn > 990) {
+                chooseZombieDirection(fastZombies, "zombiebasic");
+            }
+            moveAllZombies();
         }
 
         let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
@@ -185,6 +265,8 @@ class Game extends Phaser.Scene {
 }
 
 export default Game;
+
+////////// FUNCTIONS //////////
 
 //Get the angle between player position and cursor position, then turn player to face cursor
 const turnPlayer = function (pointer) {
@@ -207,7 +289,7 @@ const turnZombies = function (type) {
             player.y);
 
     item.setAngle(angle + 90);
-    })
+    })  
 }
 
 //Collision event for player and zombies
@@ -258,4 +340,11 @@ function fireBullet() {
 
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
+
+    //newZombie.anchor.set(2);
+
+    //let zombieShadow = type.create(posX, posY, ref).setScale(0.65);
+    //zombieShadow.anchor.set(2);
+    //zombieShadow.tint = 0x000000;
+    //zombieShadow.alpha = 0.6;
 }

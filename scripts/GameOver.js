@@ -35,7 +35,7 @@ class GameOver extends Phaser.Scene {
             color: "#FFFFFF",
         }).setOrigin(0.5);
 
-        playAgainButton.setInteractive();
+        playAgainButton.setInteractive({ useHandCursor: true  });
 
         playAgainButton.on('pointerover', () => { console.log('add highlight animation'); });
         playAgainButton.on('pointerout', () => { console.log('remove highlight animation'); });

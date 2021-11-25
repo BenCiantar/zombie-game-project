@@ -33,7 +33,7 @@ class Menu extends Phaser.Scene {
         color: "#FFFFFF",
     }).setOrigin(0.5);
 
-    startGameButton.setInteractive();
+    startGameButton.setInteractive({ useHandCursor: true  });
 
     startGameButton.on('pointerover', () => { console.log('add highlight animation'); });
     startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
