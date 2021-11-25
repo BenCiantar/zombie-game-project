@@ -84,6 +84,8 @@ class Game extends Phaser.Scene {
             down:Phaser.Input.Keyboard.KeyCodes.S,
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D,});
+
+        this.input.on('pointerdown', fireBullet, this);
        
         this.anims.create({key: "zombiebasic", 
             frames: [
@@ -198,7 +200,6 @@ function bounce(player, zombie) {
     player.setVelocity(0.1);
     zombie.setVelocity(0.1);
     this.scene.start('GameOverScene');
-    
 }
 
 function moveAllZombies() {
@@ -232,4 +233,13 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
+}
+
+
+function fireBullet() {
+    let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
+    let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
+
+    bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
+    bullet.setVelocity(x, y);
 }
