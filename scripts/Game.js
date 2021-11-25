@@ -46,8 +46,9 @@ class Game extends Phaser.Scene {
 
         player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
-        player.body.setSize(22, 25);
-        player.setOffset(24, 19);
+        // player.body.setSize(10, 10);
+        player.body.setCircle(10);
+        player.setOffset(25, 25);
         
         this.roofs = this.add.group();
 
@@ -229,4 +230,6 @@ function chooseZombieDirection(type, ref) {
 function spawnZombie(type, ref, posX, posY){
     let newZombie = type.create(posX, posY, ref).setScale(0.65);
     newZombie.anims.play(ref);
+    newZombie.body.setCircle(20);
+    newZombie.setOffset(5, 5);
 }
