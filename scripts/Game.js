@@ -124,6 +124,15 @@ class Game extends Phaser.Scene {
             let shadow5 = this.add.sprite(190, 50, "shadow");
             this.physics.add.existing(shadow5, true);
 
+<<<<<<< Updated upstream
+=======
+////////// TIMER TEXT //////////
+
+        var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
+        timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
+        timeText.setDepth(1);
+
+>>>>>>> Stashed changes
 
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turnPlayer, this);
@@ -157,7 +166,7 @@ class Game extends Phaser.Scene {
         fastZombies = this.physics.add.group();
     }
 
-    update() {
+    update(time) {
         if (gameStarted) {
             this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
             this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
@@ -169,7 +178,10 @@ class Game extends Phaser.Scene {
             this.physics.add.collider(this.roofs, player);
             this.physics.add.collider(this.roofs, zombies.getChildren());
             this.physics.add.collider(this.roofs, fastZombies.getChildren());
-            
+
+            var gameRuntime = time * 0.001; //Converted to Seconds
+            timeText.setText("Time Survived: " + Math.round(gameRuntime) + " seconds");
+              
             // this.physics.add.collider(zombies.getChildren(), zombies.getChildren(), bounce, null, this);
             //Add collision for enemies?
 
@@ -299,7 +311,10 @@ function spawnZombie(type, ref, posX, posY){
     //zombieShadow.tint = 0x000000;
     //zombieShadow.alpha = 0.6;
 
+<<<<<<< Updated upstream
 
+=======
+>>>>>>> Stashed changes
     
     
 
