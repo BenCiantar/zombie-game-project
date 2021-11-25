@@ -109,80 +109,78 @@ class Game extends Phaser.Scene {
     }
 
     update() {
-        if (gameStarted) {
-            //Add colliders for game objects
-            this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
-            this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
+        //Add colliders for game objects
+        this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
+        this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
 
-            this.physics.add.collider(this.cars, player);
-            this.physics.add.collider(this.cars, zombies.getChildren());
-            this.physics.add.collider(this.cars, fastZombies.getChildren());
+        this.physics.add.collider(this.cars, player);
+        this.physics.add.collider(this.cars, zombies.getChildren());
+        this.physics.add.collider(this.cars, fastZombies.getChildren());
 
-            this.physics.add.collider(this.roofs, player);
-            this.physics.add.collider(this.roofs, zombies.getChildren());
-            this.physics.add.collider(this.roofs, fastZombies.getChildren());
+        this.physics.add.collider(this.roofs, player);
+        this.physics.add.collider(this.roofs, zombies.getChildren());
+        this.physics.add.collider(this.roofs, fastZombies.getChildren());
 
-            this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
-                bullet.destroy();
-            });
+        this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
+            bullet.destroy();
+        });
 
-            this.physics.add.collider(this.cars, bullet, function () {
-                bullet.destroy();
-            });
+        this.physics.add.collider(this.cars, bullet, function () {
+            bullet.destroy();
+        });
 
-            thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
-                zombie.destroy();
-                bullet.destroy();
-            });
+        thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
+            zombie.destroy();
+            bullet.destroy();
+        });
 
-            thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
-                zombie.destroy();
-                bullet.destroy();
-            });
+        thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
+            zombie.destroy();
+            bullet.destroy();
+        });
 
 
-            //Listen for player movement inputs
-            if (playerControls.left.isDown) {
-                player.setVelocityX(-160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            }
-            else if (playerControls.right.isDown) {
-                player.setVelocityX(160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } else {
-                player.setVelocityX(0);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } 
-
-            if (playerControls.up.isDown) {
-                player.setVelocityY(-160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } 
-            else if (playerControls.down.isDown) {
-                player.setVelocityY(160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } else {
-                player.setVelocityY(0);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            }
-
-            let randomZombieSpawn = (Math.floor(Math.random() * 1000));
-            if (randomZombieSpawn > 900) {
-                chooseZombieDirection(zombies, "zombiebasic");
-            }
-
-            let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
-            if (randomFastZombieSpawn > 990) {
-                chooseZombieDirection(fastZombies, "zombiebasic");
-            }
-            moveAllZombies();
+        //Listen for player movement inputs
+        if (playerControls.left.isDown) {
+            player.setVelocityX(-160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
         }
+        else if (playerControls.right.isDown) {
+            player.setVelocityX(160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } else {
+            player.setVelocityX(0);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } 
+
+        if (playerControls.up.isDown) {
+            player.setVelocityY(-160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } 
+        else if (playerControls.down.isDown) {
+            player.setVelocityY(160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } else {
+            player.setVelocityY(0);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        }
+
+        let randomZombieSpawn = (Math.floor(Math.random() * 1000));
+        if (randomZombieSpawn > 900) {
+            chooseZombieDirection(zombies, "zombiebasic");
+        }
+
+        let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
+        if (randomFastZombieSpawn > 990) {
+            chooseZombieDirection(fastZombies, "zombiebasic");
+        }
+        moveAllZombies();
     }
 }
 
