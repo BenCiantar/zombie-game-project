@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, roofs;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet;
 
 
 import playerImageSrc from "../assets/player_9mm.png";
@@ -10,8 +10,6 @@ import bulletPng from "../assets/flaming_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
-
-
 
 
 class Game extends Phaser.Scene {
@@ -46,17 +44,16 @@ class Game extends Phaser.Scene {
 
         player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
-        // player.body.setSize(10, 10);
         player.body.setCircle(10);
         player.setOffset(25, 25);
         
         this.roofs = this.add.group();
 
-        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250,"roof1");
+        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250, "roof1");
         this.physics.add.existing(roof1, true);
         this.roofs.add(roof1);
 
-        let roof2 = this.add.tileSprite(1100, 200, 1 * 190, 1 * 312,"roof2");
+        let roof2 = this.add.tileSprite(1100, 200, 1 * 190, 1 * 312, "roof2");
         this.physics.add.existing(roof2, true);
         this.roofs.add(roof2);
 
@@ -111,18 +108,31 @@ class Game extends Phaser.Scene {
             this.physics.add.collider(this.cars, player);
             this.physics.add.collider(this.cars, zombies.getChildren());
             this.physics.add.collider(this.cars, fastZombies.getChildren());
+            // this.physics.add.collider(this.cars, this.bullet, destroyBullet(this.bullet));
 
             this.physics.add.collider(this.roofs, player);
             this.physics.add.collider(this.roofs, zombies.getChildren());
             this.physics.add.collider(this.roofs, fastZombies.getChildren());
-            
-            // this.physics.add.collider(zombies.getChildren(), zombies.getChildren(), bounce, null, this);
-            //Add collision for enemies?
 
-            //Listen for key inputs for shooting
-            // if (playerControls.space.isDown) {
-            //     game.add.image(10,10, 'bullet');
-            // }
+            this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
+                bullet.destroy();
+            });
+
+            this.physics.add.collider(this.cars, bullet, function () {
+                bullet.destroy();
+            });
+
+            thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
+                zombie.destroy();
+                bullet.destroy();
+            });
+
+            thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
+                zombie.destroy();
+                bullet.destroy();
+            });
+
+
             //Listen for player movement inputs
             if (playerControls.left.isDown) {
                 player.setVelocityX(-160);
@@ -243,3 +253,18 @@ function fireBullet() {
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
 }
+
+// function destroyBullet(roof, bullet) {
+//     console.log("destroying")
+//     roof.destroy();
+//     bullet.destroy();
+// }
+
+
+
+
+// hitOrcs(orc, shots)
+//   {
+//     orc.destroy();
+//     shots.destroy();
+//   }

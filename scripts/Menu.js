@@ -1,12 +1,16 @@
 //Declare global variables
 let positions, thisMenu;
 
+
+
+
 class Menu extends Phaser.Scene {
     constructor() { 
         super({key: 'MenuScene'}); 
     }
 
     preload() {
+
 
     }
 
@@ -35,7 +39,6 @@ class Menu extends Phaser.Scene {
     startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
     startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
-
     }
 
 
