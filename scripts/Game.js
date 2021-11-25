@@ -110,13 +110,13 @@ class Game extends Phaser.Scene {
 
     update() {
         if (gameStarted) {
+            //Add colliders for game objects
             this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
             this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
 
             this.physics.add.collider(this.cars, player);
             this.physics.add.collider(this.cars, zombies.getChildren());
             this.physics.add.collider(this.cars, fastZombies.getChildren());
-            // this.physics.add.collider(this.cars, this.bullet, destroyBullet(this.bullet));
 
             this.physics.add.collider(this.roofs, player);
             this.physics.add.collider(this.roofs, zombies.getChildren());
