@@ -1,7 +1,7 @@
 //Declare global variables
 let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet;
 
-
+//Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
 import zombieAtlas from "../assets/zombiebasic.json";
@@ -30,6 +30,7 @@ class Game extends Phaser.Scene {
 
     create() {
         thisGame = this;
+        //Create object that contains helpful positions
         positions = {
             centerX: this.physics.world.bounds.width / 2,
             centerY: this.physics.world.bounds.height / 2,
@@ -41,12 +42,14 @@ class Game extends Phaser.Scene {
 
         //Creates repeating tile background
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
-
+        
+        //Create the player and set attributes
         player = this.physics.add.sprite(positions.centerX, positions.centerY, "player");
         player.setCollideWorldBounds(true);
         player.body.setCircle(10);
         player.setOffset(25, 25);
         
+        //Place buildings on map
         this.roofs = this.add.group();
 
         let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250, "roof1");
@@ -57,6 +60,7 @@ class Game extends Phaser.Scene {
         this.physics.add.existing(roof2, true);
         this.roofs.add(roof2);
 
+        //Place cars on map
         this.cars = this.add.group();
 
         let car1 = this.add.sprite(600, 300, "car");
@@ -82,8 +86,10 @@ class Game extends Phaser.Scene {
             left:Phaser.Input.Keyboard.KeyCodes.A,
             right:Phaser.Input.Keyboard.KeyCodes.D,});
 
-        this.input.on('pointerdown', fireBullet, this);
+        //Fire bullet on click
+        this.input.on('pointerdown', fireBullet, this); 
        
+        //Zombie walk animation
         this.anims.create({key: "zombiebasic", 
             frames: [
                 {key: "zombiebasic", frame: "zombiebasic1.png"},
@@ -96,6 +102,8 @@ class Game extends Phaser.Scene {
             frameRate: 7, 
             repeat: -1
         });
+
+        //Create zombie groups
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
     }
@@ -181,7 +189,6 @@ class Game extends Phaser.Scene {
 export default Game;
 
 //Get the angle between player position and cursor position, then turn player to face cursor
-//Triggers whenever cursor is moved
 const turnPlayer = function (pointer) {
         let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
             player.x, 
@@ -192,7 +199,7 @@ const turnPlayer = function (pointer) {
         player.setAngle(angle);
     }
 
-
+//Turn zombies to face player direction on move
 const turnZombies = function (type) {
     type.getChildren().forEach(function(item) {
         let angle = Phaser.Math.RAD_TO_DEG * Phaser.Math.Angle.Between(
@@ -205,13 +212,12 @@ const turnZombies = function (type) {
     })
 }
 
-
+//Collision event for player and zombies
 function bounce(player, zombie) {
-    player.setVelocity(0.1);
-    zombie.setVelocity(0.1);
     this.scene.start('GameOverScene');
 }
 
+//Move all players toward player
 function moveAllZombies() {
     Phaser.Utils.Array.Each(
         zombies.getChildren(), thisGame.physics.moveToObject, thisGame.physics, player, 70)
@@ -220,6 +226,7 @@ function moveAllZombies() {
         fastZombies.getChildren(), thisGame.physics.moveToObject, thisGame.physics, player, 150)
 }
 
+//Pick a random position for zombies to spawn
 function chooseZombieDirection(type, ref) {
     let randomDirection = Math.floor(Math.random() * 4);
 
@@ -238,6 +245,7 @@ function chooseZombieDirection(type, ref) {
     }
 }
 
+//Create a zombie when called
 function spawnZombie(type, ref, posX, posY){
     let newZombie = type.create(posX, posY, ref).setScale(0.65);
     newZombie.anims.play(ref);
@@ -245,7 +253,7 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.setOffset(5, 5);
 }
 
-
+//Create and launch a bullet
 function fireBullet() {
     let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
     let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
@@ -253,18 +261,3 @@ function fireBullet() {
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
 }
-
-// function destroyBullet(roof, bullet) {
-//     console.log("destroying")
-//     roof.destroy();
-//     bullet.destroy();
-// }
-
-
-
-
-// hitOrcs(orc, shots)
-//   {
-//     orc.destroy();
-//     shots.destroy();
-//   }
