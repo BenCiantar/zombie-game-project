@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, timeText;
 
 
 import playerImageSrc from "../assets/player_9mm.png";
@@ -124,15 +124,11 @@ class Game extends Phaser.Scene {
             let shadow5 = this.add.sprite(190, 50, "shadow");
             this.physics.add.existing(shadow5, true);
 
-<<<<<<< Updated upstream
-=======
 ////////// TIMER TEXT //////////
 
         var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
         timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
         timeText.setDepth(1);
-
->>>>>>> Stashed changes
 
         //When cursor is moved, run function to update sprite to face it
         this.input.on('pointermove', turnPlayer, this);
@@ -310,12 +306,4 @@ function spawnZombie(type, ref, posX, posY){
     //zombieShadow.anchor.set(2);
     //zombieShadow.tint = 0x000000;
     //zombieShadow.alpha = 0.6;
-
-<<<<<<< Updated upstream
-
-=======
->>>>>>> Stashed changes
-    
-    
-
 }
