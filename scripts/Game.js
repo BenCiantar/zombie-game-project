@@ -269,12 +269,6 @@ class Game extends Phaser.Scene {
             }
             moveAllZombies();
         }
-
-        let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
-        if (randomFastZombieSpawn > 990) {
-            chooseZombieDirection(fastZombies, "zombiebasic");
-        }
-        moveAllZombies();
     }
 }
 
