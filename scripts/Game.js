@@ -209,8 +209,36 @@ class Game extends Phaser.Scene {
             bullet.destroy();
         });
 
+ ////////// CREATING HORDE //////////
+
         this.physics.add.collider(this.cars, bullet, function () {
-            bullet.destroy();
+
+            let randomDirectionHorde = (Math.floor(Math.random() * 4));
+
+            for (let i = 0; i < 20; i++) {
+                if (randomDirectionHorde == 0) {
+                    let posX = positions.centerX - (Math.floor(Math.random() * 100));
+                    let posY = -100 + (Math.floor(Math.random() * 200));
+                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    bullet.destroy();
+                } else if (randomDirectionHorde == 1) {
+                    let posX = positions.rightEdge + 100 + (Math.floor(Math.random() * 100));
+                    let posY = positions.centerY - (Math.floor(Math.random() * 100));
+                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    bullet.destroy();
+                } else if (randomDirectionHorde == 2) {
+                    let posX = positions.centerX - (Math.floor(Math.random() * 200));
+                    let posY = 100 + (Math.floor(Math.random() * 100));
+                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    bullet.destroy();
+                } else if (randomDirectionHorde == 3) {
+                    let posX = positions.leftEdge - 100 - (Math.floor(Math.random() * 100));
+                    let posY = positions.centerY + (Math.floor(Math.random() * 100));
+                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    bullet.destroy();
+                }
+            
+            }
         });
 
         thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
@@ -222,6 +250,8 @@ class Game extends Phaser.Scene {
             zombie.destroy();
             bullet.destroy();
         });
+        
+
 
 
 ////////// MOVEMENT //////////
@@ -267,6 +297,7 @@ class Game extends Phaser.Scene {
             if (randomFastZombieSpawn > 990) {
                 chooseZombieDirection(fastZombies, "zombiebasic");
             }
+
             moveAllZombies();
         }
     }
@@ -335,6 +366,13 @@ function chooseZombieDirection(type, ref) {
 
 //Create a zombie when called
 function spawnZombie(type, ref, posX, posY){
+    let newZombie = type.create(posX, posY, ref).setScale(0.65);
+    newZombie.anims.play(ref);
+    newZombie.body.setCircle(20);
+    newZombie.setOffset(5, 5);
+}
+
+function spawnZombieHorde(type, ref, posX, posY){
     let newZombie = type.create(posX, posY, ref).setScale(0.65);
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
