@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, timer;
 
 
 //Import assets
@@ -170,13 +170,27 @@ class Game extends Phaser.Scene {
         //Create zombie groups
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
+
+        //Initialise variables for game timer
+        this.resources = 0;
+        this.timer = 0;
     }
 
-    update(time) {
+    update(time, delta) {
         if (gameStarted) {
-          
-        var gameRuntime = time * 0.001; //Converted to Seconds
-        timeText.setText("Time Survived: " + Math.round(gameRuntime) + " seconds");    
+        
+        timeText.setText("Time Survived: " + this.resources + " seconds"); 
+     
+        //Count time between frames and add them together, then add one to seconds when ms reaches 1000
+        this.timer += delta;
+        if (this.timer > 1000) {
+            this.resources += 1;
+            this.timer -= 1000;
+        }
+
+        //Update timer
+        timeText.setText("Time Survived: " + this.resources + " seconds"); 
+        
       
  ////////// COLLIDERS //////////
       
