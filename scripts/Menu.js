@@ -1,6 +1,7 @@
 //Declare global variables
 let positions, thisMenu;
 
+import logoImgSrc from "../assets/logo6.png";
 
 
 class Menu extends Phaser.Scene {
@@ -10,7 +11,7 @@ class Menu extends Phaser.Scene {
 
 
     preload() {
-
+        this.load.image("logo", logoImgSrc);
     }
 
     create() {
@@ -25,7 +26,10 @@ class Menu extends Phaser.Scene {
 
         thisMenu = this;
 
-    const startGameButton = this.add.text(positions.centerX, positions.centerY, 'Start Game!', { 
+    const logo = this.add.image(positions.centerX, positions.centerY - 150, "logo");
+    logo.setScale(1.3);
+
+    const startGameButton = this.add.text(positions.centerX, positions.centerY + 150, 'Start Game!', { 
         fill: '#FFFFFF', 
         fontSize: 50,
         color: "#FFFFFF",
