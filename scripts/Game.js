@@ -214,22 +214,29 @@ class Game extends Phaser.Scene {
         this.physics.add.collider(this.cars, bullet, function () {
 
             let randomDirectionHorde = (Math.floor(Math.random() * 3));
+            let spread = 200;
+            let halfSpread = spread / 2;
+            let distanceOffscreen = 150;
+            let negDistanceOffscreen = -150;
 
             for (let i = 0; i < 20; i++) {
                 if (randomDirectionHorde == 0) {
-                    let posX = positions.centerX - (Math.floor(Math.random() * 100));
-                    let posY = -100 + (Math.floor(Math.random() * 200));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde top")
                     bullet.destroy();
                 } else if (randomDirectionHorde == 1) {
-                    let posX = positions.rightEdge + 100 + (Math.floor(Math.random() * 100));
-                    let posY = positions.centerY - (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
+                    let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde right")
                     bullet.destroy();
                 } else if (randomDirectionHorde == 2) {
-                    let posX = positions.centerX - (Math.floor(Math.random() * 200));
-                    let posY = 100 + (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde bottom")
                     bullet.destroy();
                 } 
             }
