@@ -1,10 +1,11 @@
 //Declare global variables
-let playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, timer, timePlayerSurvived;
 
 
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
+import zombieAtlas from "../assets/zombiebasic.json";
 import zombiePng from "../assets/zombiebasic.png";
 import bulletPng from "../assets/flaming_bullet.png";
 import carPng from "../assets/car.png";
@@ -14,38 +15,34 @@ import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
 
-import zombieAtlas from "../assets/zombiebasic.json";
-
-import bellsAudio from "url:../assets/Bells.mp3";
-
-
 class Game extends Phaser.Scene {
     constructor() { 
         super({key: 'GameScene'}); 
     }
 
     preload() {
-        this.input.maxPointers = 1; //Only allow one cursor input
-
-        this.load.image("player", playerImageSrc);
+        this.load.image("player", "./assets/player_9mm.png");
         this.load.image("bg", bgImageSrc);
-        this.load.image("flaming_bullet", bulletPng);
+        this.input.maxPointers = 1; //Only allow one cursor input
+        this.load.multiatlas(
+          "zombiebasic",
+          "./assets/zombiebasic.json",
+          "assets"
+        );
+        this.load.image("flaming_bullet", "./assets/flaming_bullet.png");
         this.load.image("car", carPng);
         this.load.image("roof1", roof1ImageSrc);
         this.load.image("roof2", roof2ImageSrc);
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
+        //this.load.audio("carAlarm", "./audio/alarm.ogg");
 
-        this.load.multiatlas("zombiebasic", zombieAtlas, zombiePng);
-
-        this.load.audio('bells', bellsAudio);
     }
 
     create() {
         gameStarted = true; //Set this to the startgame button on the menu
         thisGame = this;
-
         //Create object that contains helpful positions
         positions = {
             centerX: this.physics.world.bounds.width / 2,
@@ -58,10 +55,6 @@ class Game extends Phaser.Scene {
 
         //Creates repeating tile background
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
-
-        //Create sounds
-        playBells = this.sound.add('bells');
-
 
 ////////// ROOFS //////////
         
@@ -128,14 +121,15 @@ class Game extends Phaser.Scene {
         let treeTopLeft2 = this.add.sprite(180, 30, "tree2");
         this.physics.add.existing(treeTopLeft2, true);
         treeTopLeft2.setDepth(1);
-        let shadow5 = this.add.sprite(190, 50, "shadow");
-        this.physics.add.existing(shadow5, true);
+            let shadow5 = this.add.sprite(190, 50, "shadow");
+            this.physics.add.existing(shadow5, true);
 
 ////////// TIMER TEXT //////////
 
         var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
         timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
         timeText.setDepth(1);
+
       
 ////////// PLAYER //////////
 
@@ -160,7 +154,7 @@ class Game extends Phaser.Scene {
 
         //Fire bullet on click
         this.input.on('pointerdown', fireBullet, this); 
-      
+
    ////////// ZOMBIES //////////   
        
         //Zombie walk animation
@@ -185,115 +179,129 @@ class Game extends Phaser.Scene {
         //Initialise variables for game timer
         this.resources = 0;
         this.timer = 0;
+
+////////// MUSIC //////////
+
+    //carAlarmSound = this.sound.add("carAlarm"), { volume: 0.3};
+    
+                    // DON´T BOTHER ABOUT THIS
+                    //function carAlarm() { 
+                    //    (this.sound.add("carAlarm", { volume: 0.3})).play();
+                    //}
+
     }
 
     update(time, delta) {
         if (gameStarted) {
-            timeText.setText("Time Survived: " + this.resources + " seconds"); 
         
-            //Count time between frames and add them together, then add one to seconds when ms reaches 1000
-            this.timer += delta;
-            if (this.timer > 1000) {
-                this.resources += 1;
-                this.timer -= 1000;
-            }
+        timeText.setText("Time Survived: " + this.resources + " seconds"); 
+     
+        //Count time between frames and add them together, then add one to seconds when ms reaches 1000
+        this.timer += delta;
+        if (this.timer > 1000) {
+            this.resources += 1;
+            this.timer -= 1000;
+        }
 
-            //Update timer
-            timeText.setText("Time Survived: " + this.resources + " seconds"); 
+        //Update timer
+        timeText.setText("Time Survived: " + this.resources + " seconds"); 
 
  ////////// COLLIDERS //////////
       
-            this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
-            this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
+        this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
+        this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
 
-            this.physics.add.collider(this.cars, player);
-            this.physics.add.collider(this.cars, zombies.getChildren());
-            this.physics.add.collider(this.cars, fastZombies.getChildren());
+        this.physics.add.collider(this.cars, player);
+        this.physics.add.collider(this.cars, zombies.getChildren());
+        this.physics.add.collider(this.cars, fastZombies.getChildren());
 
-            this.physics.add.collider(this.roofs, player);
-            this.physics.add.collider(this.roofs, zombies.getChildren());
-            this.physics.add.collider(this.roofs, fastZombies.getChildren());
+        this.physics.add.collider(this.roofs, player);
+        this.physics.add.collider(this.roofs, zombies.getChildren());
+        this.physics.add.collider(this.roofs, fastZombies.getChildren());
 
-            this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
-                bullet.destroy();
-            });
+        this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
+            bullet.destroy();
+        });
 
  ////////// CREATING HORDE //////////
-            currentTime = this.resources;
-            this.physics.add.collider(this.cars, bullet, function () {
-                let randomDirectionHorde = (Math.floor(Math.random() * 3));
-                let spread = 200;
-                let halfSpread = spread / 2;
-                let distanceOffscreen = 150;
-                let negDistanceOffscreen = -150;
-                bullet.destroy();
-                if (lastHordeTime == 0 || currentTime >= (lastHordeTime + 20)) {
-                    lastHordeTime = currentTime;
-                    for (let i = 0; i < 15; i++) {
-                        if (randomDirectionHorde == 0) {
-                            let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
-                            let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
-                            spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                            console.log("horde")
-                        } else if (randomDirectionHorde == 1) {
-                            let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
-                            let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
-                            spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                            console.log("horde")
-                        } else if (randomDirectionHorde == 2) {
-                            let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
-                            let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
-                            spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                            console.log("horde")
-                        } 
-                    }
-                }
-            });
 
-            thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
-                zombie.destroy();
-                bullet.destroy();
-            });
+        this.physics.add.collider(this.cars, bullet, function () {   
+        
+            //carAlarmSound.play();
+     
+            let randomDirectionHorde = (Math.floor(Math.random() * 3));
+            let spread = 200;
+            let halfSpread = spread / 2;
+            let distanceOffscreen = 150;
+            let negDistanceOffscreen = -150;
 
-            thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
-                zombie.destroy();
-                bullet.destroy();
-            });
+            for (let i = 0; i < 20; i++) {
+                if (randomDirectionHorde == 0) {
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde top")
+                    bullet.destroy();
+                } else if (randomDirectionHorde == 1) {
+                    let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
+                    let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde right")
+                    bullet.destroy();
+                } else if (randomDirectionHorde == 2) {
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde bottom")
+                    bullet.destroy();
+                } 
+            }
+        });
+
+        thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
+            zombie.destroy();
+            bullet.destroy();
+        });
+
+        thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
+            zombie.destroy();
+            bullet.destroy();
+        });
         
 
 
 
 ////////// MOVEMENT //////////
       
-            if (playerControls.left.isDown) {
-                player.setVelocityX(-160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            }
-            else if (playerControls.right.isDown) {
-                player.setVelocityX(160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } else {
-                player.setVelocityX(0);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } 
+        if (playerControls.left.isDown) {
+            player.setVelocityX(-160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        }
+        else if (playerControls.right.isDown) {
+            player.setVelocityX(160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } else {
+            player.setVelocityX(0);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } 
 
-            if (playerControls.up.isDown) {
-                player.setVelocityY(-160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } 
-            else if (playerControls.down.isDown) {
-                player.setVelocityY(160);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            } else {
-                player.setVelocityY(0);
-                turnZombies(zombies);
-                turnZombies(fastZombies);
-            }
+        if (playerControls.up.isDown) {
+            player.setVelocityY(-160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } 
+        else if (playerControls.down.isDown) {
+            player.setVelocityY(160);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        } else {
+            player.setVelocityY(0);
+            turnZombies(zombies);
+            turnZombies(fastZombies);
+        }
       
 ////////// SPAWNING //////////
 
@@ -308,8 +316,8 @@ class Game extends Phaser.Scene {
             }
 
             moveAllZombies();
-        }
-    }
+        }     
+    } 
 }
 
 export default Game;
@@ -397,10 +405,6 @@ function fireBullet() {
     let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
     let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
 
-    playBells.play();
-
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
 }
-
-
