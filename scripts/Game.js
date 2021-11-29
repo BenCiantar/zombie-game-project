@@ -12,9 +12,8 @@ import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
 import treePng from "../assets/tree.png";
-import tree2Png from "../assets/tree2.png"
-import treeShadowPng from "../assets/treeshadow.png"
-
+import tree2Png from "../assets/tree2.png";
+import treeShadowPng from "../assets/treeshadow.png";
 
 class Game extends Phaser.Scene {
     constructor() { 
@@ -33,6 +32,7 @@ class Game extends Phaser.Scene {
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
+        this.load.audio("carAlarm", "../assets/audio/alarm.ogg");
 
     }
 
@@ -125,6 +125,7 @@ class Game extends Phaser.Scene {
         var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
         timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
         timeText.setDepth(1);
+
       
 ////////// PLAYER //////////
 
@@ -149,7 +150,7 @@ class Game extends Phaser.Scene {
 
         //Fire bullet on click
         this.input.on('pointerdown', fireBullet, this); 
-      
+
    ////////// ZOMBIES //////////   
        
         //Zombie walk animation
@@ -174,6 +175,15 @@ class Game extends Phaser.Scene {
         //Initialise variables for game timer
         this.resources = 0;
         this.timer = 0;
+
+////////// MUSIC //////////
+
+    //carAlarmSound = this.sound.add("carAlarm"), { volume: 0.3};
+    
+        //function carAlarm() { 
+        //    (this.sound.add("carAlarm", { volume: 0.3})).play();
+        //}
+
     }
 
     update(time, delta) {
@@ -191,8 +201,6 @@ class Game extends Phaser.Scene {
         //Update timer
         timeText.setText("Time Survived: " + this.resources + " seconds"); 
 
-        
-      
  ////////// COLLIDERS //////////
       
         this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
@@ -212,8 +220,10 @@ class Game extends Phaser.Scene {
 
  ////////// CREATING HORDE //////////
 
-        this.physics.add.collider(this.cars, bullet, function () {
-
+        this.physics.add.collider(this.cars, bullet, function () {   
+        
+            //carAlarmSound.play();
+     
             let randomDirectionHorde = (Math.floor(Math.random() * 3));
             let spread = 200;
             let halfSpread = spread / 2;
@@ -301,8 +311,8 @@ class Game extends Phaser.Scene {
             }
 
             moveAllZombies();
-        }
-    }
+        }     
+    } 
 }
 
 export default Game;
