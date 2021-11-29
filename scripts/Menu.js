@@ -1,7 +1,7 @@
 //Declare global variables
 let positions, thisMenu;
 
-import logoImgSrc from "../assets/logo6.png";
+import logoImgSrc from "../assets/logo13.png";
 
 
 class Menu extends Phaser.Scene {
@@ -26,8 +26,8 @@ class Menu extends Phaser.Scene {
 
         thisMenu = this;
 
-    const logo = this.add.image(positions.centerX, positions.centerY - 150, "logo");
-    logo.setScale(1.3);
+    const logo = this.add.image(positions.centerX, positions.centerY - 100, "logo");
+    logo.setScale(1.2);
 
     const startGameButton = this.add.text(positions.centerX, positions.centerY + 150, 'Start Game!', { 
         fill: '#FFFFFF', 
@@ -37,9 +37,9 @@ class Menu extends Phaser.Scene {
 
     startGameButton.setInteractive({ useHandCursor: true  });
 
-    startGameButton.on('pointerover', () => { console.log('add highlight animation'); });
-    startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
-    startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
+    // startGameButton.on('pointerover', () => { console.log('add highlight animation'); });
+    // startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
+    // startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
     }
 
