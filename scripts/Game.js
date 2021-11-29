@@ -37,7 +37,11 @@ class Game extends Phaser.Scene {
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
 
-        this.load.multiatlas("zombiebasic", zombieAtlas, zombiePng);
+        this.load.multiatlas(
+            "zombiebasic",
+            "./assets/zombiebasic.json",
+            "assets"
+          );
 
         this.load.audio('bells', bellsAudio);
     }
