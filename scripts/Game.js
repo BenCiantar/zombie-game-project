@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, timer;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, timer, timePlayerSurvived;
 
 
 //Import assets
@@ -190,6 +190,7 @@ class Game extends Phaser.Scene {
 
         //Update timer
         timeText.setText("Time Survived: " + this.resources + " seconds"); 
+
         
       
  ////////// COLLIDERS //////////
@@ -333,9 +334,11 @@ const turnZombies = function (type) {
 
 //Collision event for player and zombies
 function bounce(player, zombie) {
-    this.scene.start('GameOverScene');
+    this.scene.start('GameOverScene', {timePlayerSurvived : this.resources})
 }
 
+
+        
 //Move all players toward player
 function moveAllZombies() {
     Phaser.Utils.Array.Each(

@@ -1,9 +1,15 @@
 //Declare global variables
-let positions, thisGameOver, gameOverText, playAgainButton;
+let positions, time, thisGameOver, gameOverText, timeSurvivedText, playAgainButton, timePlayerSurvived;
 
 class GameOver extends Phaser.Scene {
     constructor() { 
         super({key: 'GameOverScene'}); 
+    }
+
+// This uploads the variable timePlayerSurvived from game.js
+    init(data) {
+        timePlayerSurvived = data.timePlayerSurvived
+
     }
 
      preload() {
@@ -12,6 +18,7 @@ class GameOver extends Phaser.Scene {
 
 
     create() {
+        
         positions = {
             centerX: this.physics.world.bounds.width / 2,
             centerY: this.physics.world.bounds.height / 2,
@@ -23,15 +30,15 @@ class GameOver extends Phaser.Scene {
 
         thisGameOver = this;
 
-        gameOverText = this.add.text(positions.centerX, positions.centerY - 30, 'Game Over!', { 
+        timeSurvivedText = this.add.text(positions.centerX, positions.centerY -150, 'You survived ' + timePlayerSurvived + ' seconds', { 
             fill: '#FFFFFF', 
             fontSize: 50,
             color: "#FFFFFF",
         }).setOrigin(0.5);
 
-        playAgainButton = this.add.text(positions.centerX, positions.centerY + 30, 'Play again?', { 
+        playAgainButton = this.add.text(positions.centerX, positions.centerY -0, 'Play again!', { 
             fill: '#FFFFFF', 
-            fontSize: 30,
+            fontSize: 90,
             color: "#FFFFFF",
         }).setOrigin(0.5);
 
