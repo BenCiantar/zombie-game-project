@@ -180,9 +180,10 @@ class Game extends Phaser.Scene {
 
     //carAlarmSound = this.sound.add("carAlarm"), { volume: 0.3};
     
-        //function carAlarm() { 
-        //    (this.sound.add("carAlarm", { volume: 0.3})).play();
-        //}
+                    // DON´T BOTHER ABOUT THIS
+                    //function carAlarm() { 
+                    //    (this.sound.add("carAlarm", { volume: 0.3})).play();
+                    //}
 
     }
 
