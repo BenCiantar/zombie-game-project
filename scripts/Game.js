@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 //Import assets
@@ -12,8 +12,16 @@ import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
 import treePng from "../assets/tree.png";
-import tree2Png from "../assets/tree2.png"
-import treeShadowPng from "../assets/treeshadow.png"
+import tree2Png from "../assets/tree2.png";
+import treeShadowPng from "../assets/treeshadow.png";
+import bellsAudio from "url:../assets/Bells.mp3";
+
+
+// const importAudioBells = async function () {
+//     let bellsUrl = await fetch(require('url:../assets/Bells.mp3'));
+//     let bells = new Audio(bellsUrl);
+//     return bells;
+// }
 
 
 class Game extends Phaser.Scene {
@@ -33,6 +41,9 @@ class Game extends Phaser.Scene {
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
+        // this.load.audio("bells", [importAudioBells()]);
+
+        this.load.audio('bells', bellsAudio);
 
     }
 
@@ -51,6 +62,9 @@ class Game extends Phaser.Scene {
 
         //Creates repeating tile background
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
+
+        playBells = this.sound.add('bells');
+
 
 ////////// ROOFS //////////
         
@@ -391,6 +405,10 @@ function fireBullet() {
     let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
     let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
 
+    playBells.play();
+
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
 }
+
+
