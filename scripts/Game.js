@@ -213,7 +213,7 @@ class Game extends Phaser.Scene {
 
         this.physics.add.collider(this.cars, bullet, function () {
 
-            let randomDirectionHorde = (Math.floor(Math.random() * 4));
+            let randomDirectionHorde = (Math.floor(Math.random() * 3));
 
             for (let i = 0; i < 20; i++) {
                 if (randomDirectionHorde == 0) {
@@ -231,13 +231,7 @@ class Game extends Phaser.Scene {
                     let posY = 100 + (Math.floor(Math.random() * 100));
                     spawnZombieHorde(zombies, "zombiebasic", posY, posX);
                     bullet.destroy();
-                } else if (randomDirectionHorde == 3) {
-                    let posX = positions.leftEdge - 100 - (Math.floor(Math.random() * 100));
-                    let posY = positions.centerY + (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
-                    bullet.destroy();
-                }
-            
+                } 
             }
         });
 
