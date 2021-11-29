@@ -346,6 +346,8 @@ function chooseZombieDirection(type, ref) {
     let distanceFromEdge = 20;
     let randomPosX = Math.floor(Math.random() * positions.rightEdge);
     let randomPosY = Math.floor(Math.random() * positions.bottomEdge);
+    let halfRandomPosY = Math.floor(Math.random() * (positions.bottomEdge / 2));
+
 
     if (randomDirection == 0) {
         spawnZombie(type, ref, randomPosX, (positions.topEdge - distanceFromEdge));
@@ -354,7 +356,7 @@ function chooseZombieDirection(type, ref) {
     } else if (randomDirection == 2) {
         spawnZombie(type, ref, randomPosX, (positions.bottomEdge + distanceFromEdge));
     } else if (randomDirection == 3) {
-        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), randomPosY);
+        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), halfRandomPosY);
     }
 }
 
