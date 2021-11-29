@@ -56,7 +56,7 @@ class Game extends Phaser.Scene {
         
         this.roofs = this.add.group();
 
-        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250, "roof1");
+        let roof1 = this.add.tileSprite(120, 500, 1 * 280, 1 * 250, "roof1");
 
         this.physics.add.existing(roof1, true);
         this.roofs.add(roof1);
@@ -214,31 +214,32 @@ class Game extends Phaser.Scene {
 
         this.physics.add.collider(this.cars, bullet, function () {
 
-            let randomDirectionHorde = (Math.floor(Math.random() * 4));
+            let randomDirectionHorde = (Math.floor(Math.random() * 3));
+            let spread = 200;
+            let halfSpread = spread / 2;
+            let distanceOffscreen = 150;
+            let negDistanceOffscreen = -150;
 
             for (let i = 0; i < 20; i++) {
                 if (randomDirectionHorde == 0) {
-                    let posX = positions.centerX - (Math.floor(Math.random() * 100));
-                    let posY = -100 + (Math.floor(Math.random() * 200));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde top")
                     bullet.destroy();
                 } else if (randomDirectionHorde == 1) {
-                    let posX = positions.rightEdge + 100 + (Math.floor(Math.random() * 100));
-                    let posY = positions.centerY - (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
+                    let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde right")
                     bullet.destroy();
                 } else if (randomDirectionHorde == 2) {
-                    let posX = positions.centerX - (Math.floor(Math.random() * 200));
-                    let posY = 100 + (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
+                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                    let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
+                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                    console.log("spawning horde bottom")
                     bullet.destroy();
-                } else if (randomDirectionHorde == 3) {
-                    let posX = positions.leftEdge - 100 - (Math.floor(Math.random() * 100));
-                    let posY = positions.centerY + (Math.floor(Math.random() * 100));
-                    spawnZombieHorde(zombies, "zombiebasic", posY, posX);
-                    bullet.destroy();
-                }
-            
+                } 
             }
         });
 
@@ -355,6 +356,8 @@ function chooseZombieDirection(type, ref) {
     let distanceFromEdge = 20;
     let randomPosX = Math.floor(Math.random() * positions.rightEdge);
     let randomPosY = Math.floor(Math.random() * positions.bottomEdge);
+    let halfRandomPosY = Math.floor(Math.random() * (positions.bottomEdge / 2));
+
 
     if (randomDirection == 0) {
         spawnZombie(type, ref, randomPosX, (positions.topEdge - distanceFromEdge));
@@ -363,7 +366,7 @@ function chooseZombieDirection(type, ref) {
     } else if (randomDirection == 2) {
         spawnZombie(type, ref, randomPosX, (positions.bottomEdge + distanceFromEdge));
     } else if (randomDirection == 3) {
-        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), randomPosY);
+        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), halfRandomPosY - 30);
     }
 }
 
@@ -389,11 +392,4 @@ function fireBullet() {
 
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
-
-    //newZombie.anchor.set(2);
-
-    //let zombieShadow = type.create(posX, posY, ref).setScale(0.65);
-    //zombieShadow.anchor.set(2);
-    //zombieShadow.tint = 0x000000;
-    //zombieShadow.alpha = 0.6;
 }
