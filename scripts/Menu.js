@@ -3,17 +3,15 @@ let positions, thisMenu;
 
 
 
-
 class Menu extends Phaser.Scene {
     constructor() { 
         super({key: 'MenuScene'}); 
     }
 
+
     preload() {
 
-
     }
-
 
     create() {
         positions = {
