@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, timer, timePlayerSurvived;
+let positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 //Import assets
@@ -188,6 +188,8 @@ class Game extends Phaser.Scene {
             this.timer -= 1000;
         }
 
+
+
         //Update timer
         timeText.setText("Time Survived: " + this.resources + " seconds"); 
 
@@ -211,35 +213,34 @@ class Game extends Phaser.Scene {
         });
 
  ////////// CREATING HORDE //////////
-
+        currentTime = this.resources;
         this.physics.add.collider(this.cars, bullet, function () {
-
             let randomDirectionHorde = (Math.floor(Math.random() * 3));
             let spread = 200;
             let halfSpread = spread / 2;
             let distanceOffscreen = 150;
             let negDistanceOffscreen = -150;
-
-            for (let i = 0; i < 20; i++) {
-                if (randomDirectionHorde == 0) {
-                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
-                    let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
-                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                    console.log("spawning horde top")
-                    bullet.destroy();
-                } else if (randomDirectionHorde == 1) {
-                    let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
-                    let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
-                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                    console.log("spawning horde right")
-                    bullet.destroy();
-                } else if (randomDirectionHorde == 2) {
-                    let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
-                    let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
-                    spawnZombieHorde(zombies, "zombiebasic", posX, posY);
-                    console.log("spawning horde bottom")
-                    bullet.destroy();
-                } 
+            bullet.destroy();
+            if (lastHordeTime == 0 || currentTime >= (lastHordeTime + 20)) {
+                lastHordeTime = currentTime;
+                for (let i = 0; i < 15; i++) {
+                    if (randomDirectionHorde == 0) {
+                        let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                        let posY = negDistanceOffscreen + (Math.floor(Math.random() * spread));
+                        spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                        console.log("horde")
+                    } else if (randomDirectionHorde == 1) {
+                        let posX = positions.rightEdge + distanceOffscreen + (Math.floor(Math.random() * spread));
+                        let posY = positions.centerY + halfSpread - (Math.floor(Math.random() * spread));
+                        spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                        console.log("horde")
+                    } else if (randomDirectionHorde == 2) {
+                        let posX = positions.centerX + halfSpread - (Math.floor(Math.random() * spread));
+                        let posY = positions.bottomEdge + distanceOffscreen - (Math.floor(Math.random() * spread));
+                        spawnZombieHorde(zombies, "zombiebasic", posX, posY);
+                        console.log("horde")
+                    } 
+                }
             }
         });
 
