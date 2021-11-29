@@ -363,7 +363,7 @@ function chooseZombieDirection(type, ref) {
     } else if (randomDirection == 2) {
         spawnZombie(type, ref, randomPosX, (positions.bottomEdge + distanceFromEdge));
     } else if (randomDirection == 3) {
-        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), halfRandomPosY);
+        spawnZombie(type, ref, (positions.leftEdge - distanceFromEdge), halfRandomPosY - 30);
     }
 }
 
