@@ -56,7 +56,7 @@ class Game extends Phaser.Scene {
         
         this.roofs = this.add.group();
 
-        let roof1 = this.add.tileSprite(140, 500, 1 * 280, 1 * 250, "roof1");
+        let roof1 = this.add.tileSprite(120, 500, 1 * 280, 1 * 250, "roof1");
 
         this.physics.add.existing(roof1, true);
         this.roofs.add(roof1);
