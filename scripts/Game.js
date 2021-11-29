@@ -382,11 +382,4 @@ function fireBullet() {
 
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
-
-    //newZombie.anchor.set(2);
-
-    //let zombieShadow = type.create(posX, posY, ref).setScale(0.65);
-    //zombieShadow.anchor.set(2);
-    //zombieShadow.tint = 0x000000;
-    //zombieShadow.alpha = 0.6;
 }
