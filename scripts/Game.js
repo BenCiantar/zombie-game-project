@@ -107,19 +107,6 @@ class Game extends Phaser.Scene {
         zombieDies3 = this.sound.add("zombieDies3", { loop: false});
 
 
-
-
-
-
-//        if (this.physics.add.collider(this.cars, bullet)) {
-//            carAlarmAudio.play();
-//        } else {
-//           carAlarmAudio.pause();
-//        }
-
-
-
-
 ////////// ROOFS //////////
         
         this.roofs = this.add.group();
