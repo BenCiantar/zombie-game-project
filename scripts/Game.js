@@ -17,8 +17,6 @@ import treeShadowPng from "../assets/treeshadow.png";
 
 // import zombieAtlas from "../assets/zombiebasic.json";
 
-import bellsAudio from "url:../assets/Bells.mp3";
-
 
 class Game extends Phaser.Scene {
     constructor() { 
@@ -40,12 +38,19 @@ class Game extends Phaser.Scene {
         // this.load.image("smoke", smokeParticle);
 
         this.load.multiatlas(
+<<<<<<< Updated upstream
             "zombiebasic",
             "./assets/zombiebasic.json",
             "assets"
           );
+=======
+          "zombiebasic",
+          "./assets/zombiebasic.json",
+          "assets"
+        );
+>>>>>>> Stashed changes
 
-        this.load.audio('bells', bellsAudio);
+        this.load.audio("bells", "../assets/Bells.mp3");
     }
 
     create() {
