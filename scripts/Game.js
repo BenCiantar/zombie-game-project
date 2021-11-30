@@ -5,8 +5,8 @@ let playBells, positions, player, gameStarted, playerControls, zombies, fastZomb
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
-import zombiePng from "../assets/zombiebasic.png";
-import bulletPng from "../assets/flaming_bullet.png";
+// import zombiePng from "../assets/zombiebasic.png";
+import bulletPng from "../assets/blue_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
@@ -14,7 +14,7 @@ import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
 
-import zombieAtlas from "../assets/zombiebasic.json";
+// import zombieAtlas from "../assets/zombiebasic.json";
 
 import bellsAudio from "url:../assets/Bells.mp3";
 
