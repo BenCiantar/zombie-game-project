@@ -507,9 +507,6 @@ function spawnZombieHorde(type, ref, posX, posY){
 //Create and launch a bullet
 function fireBullet() {
 
-    let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
-    let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
-
     gunshotSound.play();
 
     let y = 800 * Math.sin((Math.PI * 2 * player.angle) / 360);
