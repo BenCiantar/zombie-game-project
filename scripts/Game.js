@@ -13,6 +13,7 @@ import roof2ImageSrc from "../assets/roof2.jpg";
 import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
+// import smokeParticle from "../assets/smoke_particle.png";
 
 // import zombieAtlas from "../assets/zombiebasic.json";
 
@@ -29,13 +30,14 @@ class Game extends Phaser.Scene {
 
         this.load.image("player", playerImageSrc);
         this.load.image("bg", bgImageSrc);
-        this.load.image("flaming_bullet", bulletPng);
+        this.load.image("blue_bullet", bulletPng);
         this.load.image("car", carPng);
         this.load.image("roof1", roof1ImageSrc);
         this.load.image("roof2", roof2ImageSrc);
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
+        // this.load.image("smoke", smokeParticle);
 
         this.load.multiatlas(
             "zombiebasic",
@@ -65,6 +67,7 @@ class Game extends Phaser.Scene {
 
         //Create sounds
         playBells = this.sound.add('bells');
+
 
 
 ////////// ROOFS //////////
@@ -225,6 +228,7 @@ class Game extends Phaser.Scene {
  ////////// CREATING HORDE //////////
             currentTime = this.resources;
             this.physics.add.collider(this.cars, bullet, function () {
+
                 let randomDirectionHorde = (Math.floor(Math.random() * 3));
                 let spread = 200;
                 let halfSpread = spread / 2;
@@ -257,6 +261,20 @@ class Game extends Phaser.Scene {
             thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
+
+                // const particles = this.add.particles('smoke');
+                // emitter = particles.createEmitter({
+                //     positionX: zombie.x,
+                //     positionY: zombie.y,
+                //     velocity: 0.1,
+                //     speed: 100,
+                //     spread: 0,
+                //     scale: 0.015,
+                //     lifespan: 200,
+                //     blendMode: "ADD"
+                // });
+            
+                // emitter.startFollow(bullet);
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
@@ -401,9 +419,7 @@ function fireBullet() {
     let y = 800 * Math.sin((Math.PI * 2 * player.angle) / 360);
     let x = 800 * Math.cos((Math.PI * 2 * player.angle) / 360);
 
-    playBells.play();
-
-    bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
+    bullet = thisGame.physics.add.sprite(player.x, player.y, "blue_bullet").setScale(1.2);
     bullet.setVelocity(x, y);
 }
 
