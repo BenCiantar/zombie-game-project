@@ -2,6 +2,7 @@
 let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
+
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
@@ -13,9 +14,10 @@ import roof2ImageSrc from "../assets/roof2.jpg";
 import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
+import gunShot from "url:../assets/Audio/gunshotSound.mp3"
+import zombieAtlas from "../assets/zombiebasic.json";
 // import smokeParticle from "../assets/smoke_particle.png";
 
-// import zombieAtlas from "../assets/zombiebasic.json";
 
 import bellsAudio from "url:../assets/Bells.mp3";
 import carAlarmAudio from "url:../assets/car-alarm.mp3";
@@ -51,6 +53,14 @@ class Game extends Phaser.Scene {
         this.load.image("shadow", treeShadowPng);
         // this.load.image("smoke", smokeParticle);
 
+        //Audios
+        // this.load.audio("gunshotSound", gunShot);
+        this.load.audio("gunshotSound", gunShot);
+
+
+
+        //Something else xd juajua haha xDXXDXDXDXD
+
         this.load.multiatlas(
             "zombiebasic",
             "./assets/zombiebasic.json",
@@ -77,6 +87,10 @@ class Game extends Phaser.Scene {
         gameStarted = true; //Set this to the startgame button on the menu
         thisGame = this;
 
+        //Fixing the audio for the menu:
+        
+
+
         //Create object that contains helpful positions
         positions = {
             centerX: this.physics.world.bounds.width / 2,
@@ -91,7 +105,7 @@ class Game extends Phaser.Scene {
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
 
         //Create sounds
-        playBells = this.sound.add('bells', {volume: 1});
+        gunshotSound = this.sound.add("gunshotSound", {loop:false, volume:0.05});
         carAlarm = this.sound.add("carAlarm", {loop: false}, {volume: 1});
         zombieHorde = this.sound.add("zombieHorde", { loop: false}, {volume: 4});
         standardZombie = this.sound.add("standardZombie", { loop: false}, {volume: .2});
@@ -356,9 +370,6 @@ class Game extends Phaser.Scene {
                 bullet.destroy();
                 zombieDies.play();
             });
-        
-
-
 
 ////////// MOVEMENT //////////
       
@@ -467,8 +478,6 @@ function bounce(player, zombie) {
     zombieHorde.pause();
     carAlarm.pause();
     fasterShorterZombieAudio.pause();
-    
-
 }
 
 

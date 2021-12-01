@@ -1,7 +1,9 @@
 //Declare global variables
-let positions, thisMenu;
+let positions, thisMenu, backgroundMusicIntro;
 
 import logoImgSrc from "../assets/logo13.png";
+    import menuMusic from "url:../assets/Audio/backgroundSuspenseMusic.mp3";
+
 
 
 class Menu extends Phaser.Scene {
@@ -12,6 +14,8 @@ class Menu extends Phaser.Scene {
 
     preload() {
         this.load.image("logo", logoImgSrc);
+        this.load.audio("backgroundSuspenseMusic", menuMusic);
+
     }
 
     create() {
@@ -25,6 +29,11 @@ class Menu extends Phaser.Scene {
         };
 
         thisMenu = this;
+
+    //menu music
+    backgroundMusicIntro = this.sound.add("backgroundSuspenseMusic", {loop:true});
+    backgroundMusicIntro.play();
+
 
     const logo = this.add.image(positions.centerX, positions.centerY - 100, "logo");
     logo.setScale(1.2);
@@ -41,6 +50,7 @@ class Menu extends Phaser.Scene {
     // startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
     // startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
+    startGameButton.on('pointerup', () => { backgroundMusicIntro.stop(); });
     }
 
 
