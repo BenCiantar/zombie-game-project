@@ -45,10 +45,6 @@ class Menu extends Phaser.Scene {
     }).setOrigin(0.5);
 
     startGameButton.setInteractive({ useHandCursor: true  });
-
-    // startGameButton.on('pointerover', () => { console.log('add highlight animation'); });
-    // startGameButton.on('pointerout', () => { console.log('remove highlight animation'); });
-    // startGameButton.on('pointerdown', () => { console.log('add pressing animation'); });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
     startGameButton.on('pointerup', () => { backgroundMusicIntro.stop(); });
     }
