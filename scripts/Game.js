@@ -253,7 +253,6 @@ class Game extends Phaser.Scene {
       
             this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
             this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
-
             this.physics.add.collider(player, blobZombies.getChildren(), bounce, null, this);
 
             this.physics.add.collider(this.cars, player);
@@ -410,21 +409,20 @@ class Game extends Phaser.Scene {
             let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
             if (randomFastZombieSpawn > 990) {
                 chooseZombieDirection(fastZombies, "zombiebasic");
-                    let randomNumber = Math.floor(Math.random() * 4); 
-                    if (randomNumber == 0) {
-                        fasterShorterZombieAudio.play()
-                    } else if (randomNumber == 1) {
-                        fasterShorterZombieAudio2.play()
-                    } else if (randomNumber == 2) {
-                        fasterShorterZombieAudio3.play()
-                    } else if (randomNumber == 3) {
-                        fasterZombieAudio.play()
-                    } 
-                        console.log(randomNumber);     
+                let randomNumber = Math.floor(Math.random() * 4); 
+                if (randomNumber == 0) {
+                    fasterShorterZombieAudio.play()
+                } else if (randomNumber == 1) {
+                    fasterShorterZombieAudio2.play()
+                } else if (randomNumber == 2) {
+                    fasterShorterZombieAudio3.play()
+                } else if (randomNumber == 3) {
+                    fasterZombieAudio.play()
+                }   
             }
 
             let randomBlobZombieSpawn = (Math.floor(Math.random() * 1000));
-            if (randomBlobZombieSpawn > 1200) {
+            if (randomBlobZombieSpawn > 990) {
                 chooseZombieDirection(blobZombies, "zombiebasic");
 
             }
@@ -515,6 +513,15 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
     
+
+    if (blobZombies.contains(newZombie)) {
+        newZombie.setScale(1.2);
+        newZombie.setTint(0xa3c010);
+    };
+
+    // if (type == blobZombies) {
+
+    // }
 }
 
 function spawnZombieHorde(type, ref, posX, posY){
