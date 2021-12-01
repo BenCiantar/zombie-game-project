@@ -335,7 +335,7 @@ class Game extends Phaser.Scene {
                 }
                 
                 let emitter;
-                emitter = thisGame.add.particles('blood').setDepth(10).createEmitter({
+                emitter = thisGame.add.particles('blood').setDepth(9).createEmitter({
                     x: zombie.x,
                     y: zombie.y,
                     scale: 0.2,
