@@ -429,7 +429,7 @@ class Game extends Phaser.Scene {
             }
 
             let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
-            if (randomFastZombieSpawn > 990) {
+            if (randomFastZombieSpawn > 993) {
                 chooseZombieDirection(fastZombies, "zombiebasic");
                 let randomNumber = Math.floor(Math.random() * 4); 
                 if (randomNumber == 0) {
@@ -444,7 +444,7 @@ class Game extends Phaser.Scene {
             }
 
             let randomBlobZombieSpawn = (Math.floor(Math.random() * 1000));
-            if (randomBlobZombieSpawn > 995) {
+            if (randomBlobZombieSpawn > 996) {
                 chooseZombieDirection(blobZombies, "zombiebasic");
 
             }
