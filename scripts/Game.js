@@ -519,6 +519,11 @@ function spawnZombie(type, ref, posX, posY){
         newZombie.setTint(0xa3c010);
     };
 
+    if (fastZombies.contains(newZombie)) {
+        newZombie.setScale(0.4);
+        newZombie.setTint(0xd0e429);
+    };
+
     // if (type == blobZombies) {
 
     // }
