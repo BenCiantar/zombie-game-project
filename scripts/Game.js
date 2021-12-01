@@ -292,8 +292,8 @@ class Game extends Phaser.Scene {
                 let randomDirectionHorde = (Math.floor(Math.random() * 3));
                 let spread = 200;
                 let halfSpread = spread / 2;
-                let distanceOffscreen = 150;
-                let negDistanceOffscreen = -150;
+                let distanceOffscreen = 180;
+                let negDistanceOffscreen = -180;
                 bullet.destroy();
                 if (lastHordeTime == 0 || currentTime >= (lastHordeTime + 20)) {
                     lastHordeTime = currentTime;
