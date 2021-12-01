@@ -1,5 +1,6 @@
 //Declare global variables
-let playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let gunshotSound, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+
 
 
 //Import assets
@@ -13,9 +14,8 @@ import roof2ImageSrc from "../assets/roof2.jpg";
 import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
-
+import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import zombieAtlas from "../assets/zombiebasic.json";
-
 import bellsAudio from "url:../assets/Bells.mp3";
 
 
@@ -37,6 +37,14 @@ class Game extends Phaser.Scene {
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
 
+        //Audios
+        // this.load.audio("gunshotSound", gunShot);
+        this.load.audio("gunshotSound", gunShot);
+
+
+
+        //Something else xd juajua haha xDXXDXDXDXD
+
         this.load.multiatlas(
             "zombiebasic",
             "./assets/zombiebasic.json",
@@ -49,6 +57,10 @@ class Game extends Phaser.Scene {
     create() {
         gameStarted = true; //Set this to the startgame button on the menu
         thisGame = this;
+
+        //Fixing the audio for the menu:
+        
+
 
         //Create object that contains helpful positions
         positions = {
@@ -64,7 +76,8 @@ class Game extends Phaser.Scene {
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
 
         //Create sounds
-        playBells = this.sound.add('bells');
+        playBells = this.sound.add('bells' );
+        gunshotSound = this.sound.add("gunshotSound", {loop:false, volume:0.05});
 
 
 ////////// ROOFS //////////
@@ -401,7 +414,7 @@ function fireBullet() {
     let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
     let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
 
-    playBells.play();
+    gunshotSound.play();
 
     bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
     bullet.setVelocity(x, y);
