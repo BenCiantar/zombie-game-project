@@ -1,5 +1,5 @@
 //Declare global variables
-let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 
@@ -236,10 +236,13 @@ class Game extends Phaser.Scene {
         });
 
 
+
         //Create zombie groups
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
+        blobZombies = this.physics.add.group();
         standardZombieLong.play();
+
 
         //Initialise variables for game timer
         this.resources = 0;
@@ -264,14 +267,17 @@ class Game extends Phaser.Scene {
       
             this.physics.add.collider(player, zombies.getChildren(), bounce, null, this);
             this.physics.add.collider(player, fastZombies.getChildren(), bounce, null, this);
+            this.physics.add.collider(player, blobZombies.getChildren(), bounce, null, this);
 
             this.physics.add.collider(this.cars, player);
             this.physics.add.collider(this.cars, zombies.getChildren());
             this.physics.add.collider(this.cars, fastZombies.getChildren());
+            this.physics.add.collider(this.cars, blobZombies.getChildren());
 
             this.physics.add.collider(this.roofs, player);
             this.physics.add.collider(this.roofs, zombies.getChildren());
             this.physics.add.collider(this.roofs, fastZombies.getChildren());
+            this.physics.add.collider(this.roofs, blobZombies.getChildren());
 
             this.physics.add.collider(this.roofs, bullet, function (roof, bullet) {
                 bullet.destroy();
@@ -348,6 +354,20 @@ class Game extends Phaser.Scene {
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
+
+                let randomNumber = Math.floor(Math.random() * 2); 
+                    if (randomNumber == 0) {
+                        zombieDies.play();
+                    } else if (randomNumber == 1) {
+                        zombieDies2.play();
+                    } else if (randomNumber == 2) {
+                        zombieDies3.play();
+                    } 
+            });
+
+            thisGame.physics.add.collider([blobZombies], bullet, function (zombie, bullet) {
+                zombie.destroy();
+                bullet.destroy();
                 zombieDies.play();
             });
 
@@ -357,30 +377,36 @@ class Game extends Phaser.Scene {
                 player.setVelocityX(-160);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             }
             else if (playerControls.right.isDown) {
                 player.setVelocityX(160);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             } else {
                 player.setVelocityX(0);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             } 
 
             if (playerControls.up.isDown) {
                 player.setVelocityY(-160);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             } 
             else if (playerControls.down.isDown) {
                 player.setVelocityY(160);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             } else {
                 player.setVelocityY(0);
                 turnZombies(zombies);
                 turnZombies(fastZombies);
+                turnZombies(blobZombies);
             }
       
 ////////// SPAWNING //////////
@@ -394,17 +420,22 @@ class Game extends Phaser.Scene {
             let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
             if (randomFastZombieSpawn > 990) {
                 chooseZombieDirection(fastZombies, "zombiebasic");
-                    let randomNumber = Math.floor(Math.random() * 4); 
-                    if (randomNumber == 0) {
-                        fasterShorterZombieAudio.play()
-                    } else if (randomNumber == 1) {
-                        fasterShorterZombieAudio2.play()
-                    } else if (randomNumber == 2) {
-                        fasterShorterZombieAudio3.play()
-                    } else if (randomNumber == 3) {
-                        fasterZombieAudio.play()
-                    } 
-                        console.log(randomNumber);     
+                let randomNumber = Math.floor(Math.random() * 4); 
+                if (randomNumber == 0) {
+                    fasterShorterZombieAudio.play()
+                } else if (randomNumber == 1) {
+                    fasterShorterZombieAudio2.play()
+                } else if (randomNumber == 2) {
+                    fasterShorterZombieAudio3.play()
+                } else if (randomNumber == 3) {
+                    fasterZombieAudio.play()
+                }   
+            }
+
+            let randomBlobZombieSpawn = (Math.floor(Math.random() * 1000));
+            if (randomBlobZombieSpawn > 990) {
+                chooseZombieDirection(blobZombies, "zombiebasic");
+
             }
 
             moveAllZombies();
@@ -458,6 +489,9 @@ function moveAllZombies() {
 
     Phaser.Utils.Array.Each(
         fastZombies.getChildren(), thisGame.physics.moveToObject, thisGame.physics, player, 150)
+
+    Phaser.Utils.Array.Each(
+        blobZombies.getChildren(), thisGame.physics.moveToObject, thisGame.physics, player, 30)
 }
 
 //Pick a random position for zombies to spawn
@@ -488,6 +522,20 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
     
+
+    if (blobZombies.contains(newZombie)) {
+        newZombie.setScale(1.2);
+        newZombie.setTint(0xa3c010);
+    };
+
+    if (fastZombies.contains(newZombie)) {
+        newZombie.setScale(0.4);
+        newZombie.setTint(0xd0e429);
+    };
+
+    // if (type == blobZombies) {
+
+    // }
 }
 
 function spawnZombieHorde(type, ref, posX, posY){
@@ -499,6 +547,7 @@ function spawnZombieHorde(type, ref, posX, posY){
     zombieHorde.play();
     hordeScream.play();
 }
+
 
 //Create and launch a bullet
 function fireBullet() {
