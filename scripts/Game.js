@@ -381,12 +381,12 @@ class Game extends Phaser.Scene {
                 emitter = thisGame.add.particles('smoke').setDepth(10).createEmitter({
                     x: zombie.x,
                     y: zombie.y,
-                    speed: { min: -400, max: 400 },
+                    speed: { min: -700, max: 700 },
                     scale: { start: 0.3, end: 0.7 },
                     blendMode: 'ADD',
                     alpha: 0.7,
                     maxParticles: 120,
-                    lifespan: 1800,
+                    lifespan: 2000,
                     tint: [ 0xa3c010 ],
                 });
                 emitter.maxParticles = 70;
