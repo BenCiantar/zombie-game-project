@@ -342,16 +342,9 @@ class Game extends Phaser.Scene {
                     speed: { min: -100, max: 100 },
                     scale: { start: 0.7, end: 0.3 },
                     blendMode: 'ADD',
-                    // alpha: 1,
-                    // lifespan: 170,
                     maxParticles: 30,
                     tint: [ 0x980002 ],
                 });
-                // console.log(thisGame.time)
-                // console.log(Phaser.timer);
-                // emitter.maxParticles = 10;
-                // timedEvent = thisGame.time.addEvent({ delay: 50000, callback: killEmitter(emitter), callbackScope: thisGame, loop: false });
-                // thisGame.time.addEvent(5000, console.log("kill emitter"), thisGame);
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
@@ -366,6 +359,18 @@ class Game extends Phaser.Scene {
                     } else if (randomNumber == 2) {
                         zombieDies3.play();
                     } 
+
+                let emitter;
+                emitter = thisGame.add.particles('blood').setDepth(9).createEmitter({
+                    x: zombie.x,
+                    y: zombie.y,
+                    scale: 0.1,
+                    speed: { min: -100, max: 100 },
+                    scale: { start: 0.7, end: 0.3 },
+                    blendMode: 'ADD',
+                    maxParticles: 20,
+                    tint: [ 0x980002 ],
+                });
             });
 
             thisGame.physics.add.collider([blobZombies], bullet, function (zombie, bullet) {
@@ -380,6 +385,7 @@ class Game extends Phaser.Scene {
                     scale: { start: 0.3, end: 0.7 },
                     blendMode: 'ADD',
                     alpha: 0.7,
+                    maxParticles: 120,
                     lifespan: 1800,
                     tint: [ 0xa3c010 ],
                 });
