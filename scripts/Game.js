@@ -336,9 +336,6 @@ class Game extends Phaser.Scene {
                 bullet.destroy();
                 zombieDies.play();
             });
-        
-
-
 
 ////////// MOVEMENT //////////
       
@@ -436,8 +433,6 @@ function bounce(player, zombie) {
     zombieHorde.pause();
     carAlarm.pause();
     fasterShorterZombieAudio.pause();
-    
-
 }
 
 
