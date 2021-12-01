@@ -1,5 +1,5 @@
 //Declare global variables
-let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let timedEvent, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 
@@ -17,6 +17,7 @@ import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import zombieAtlas from "../assets/zombiebasic.json";
 import smokeParticle from "../assets/smoke_particle.png";
+import bloodParticle from "../assets/blood_drop.png";
 
 
 import bellsAudio from "url:../assets/Bells.mp3";
@@ -52,6 +53,7 @@ class Game extends Phaser.Scene {
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
         this.load.image("smoke", smokeParticle);
+        this.load.image("blood", bloodParticle);
 
         //Audios
         this.load.audio("gunshotSound", gunShot);
@@ -322,32 +324,27 @@ class Game extends Phaser.Scene {
             thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
-
                 
                 let randomNumber = Math.floor(Math.random() * 2); 
-                    if (randomNumber == 0) {
-                        zombieDies.play();
-                    } else if (randomNumber == 1) {
-                        zombieDies2.play();
-                    } else if (randomNumber == 2) {
-                        zombieDies3.play();
-                    } 
-
-
-                // const particles = this.add.particles('smoke');
-                // emitter = particles.createEmitter({
-                //     positionX: zombie.x,
-                //     positionY: zombie.y,
-                //     velocity: 0.1,
-                //     speed: 100,
-                //     spread: 0,
-                //     scale: 0.015,
-                //     lifespan: 200,
-                //     blendMode: "ADD"
-                // });
-            
-                // emitter.startFollow(bullet);
-
+                if (randomNumber == 0) {
+                    zombieDies.play();
+                } else if (randomNumber == 1) {
+                    zombieDies2.play();
+                } else if (randomNumber == 2) {
+                    zombieDies3.play();
+                }
+                
+                let emitter;
+                emitter = thisGame.add.particles('blood').setDepth(9).createEmitter({
+                    x: zombie.x,
+                    y: zombie.y,
+                    scale: 0.2,
+                    speed: { min: -100, max: 100 },
+                    scale: { start: 0.7, end: 0.3 },
+                    blendMode: 'ADD',
+                    maxParticles: 30,
+                    tint: [ 0x980002 ],
+                });
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
@@ -362,6 +359,18 @@ class Game extends Phaser.Scene {
                     } else if (randomNumber == 2) {
                         zombieDies3.play();
                     } 
+
+                let emitter;
+                emitter = thisGame.add.particles('blood').setDepth(9).createEmitter({
+                    x: zombie.x,
+                    y: zombie.y,
+                    scale: 0.1,
+                    speed: { min: -100, max: 100 },
+                    scale: { start: 0.7, end: 0.3 },
+                    blendMode: 'ADD',
+                    maxParticles: 20,
+                    tint: [ 0x980002 ],
+                });
             });
 
             thisGame.physics.add.collider([blobZombies], bullet, function (zombie, bullet) {
@@ -376,6 +385,7 @@ class Game extends Phaser.Scene {
                     scale: { start: 0.3, end: 0.7 },
                     blendMode: 'ADD',
                     alpha: 0.7,
+                    maxParticles: 120,
                     lifespan: 1800,
                     tint: [ 0xa3c010 ],
                 });
@@ -567,5 +577,4 @@ function fireBullet() {
     bullet = thisGame.physics.add.sprite(player.x, player.y, "blue_bullet").setScale(1.2);
     bullet.setVelocity(x, y);
 }
-
 
