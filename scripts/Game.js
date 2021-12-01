@@ -322,32 +322,15 @@ class Game extends Phaser.Scene {
             thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
-
                 
                 let randomNumber = Math.floor(Math.random() * 2); 
-                    if (randomNumber == 0) {
-                        zombieDies.play();
-                    } else if (randomNumber == 1) {
-                        zombieDies2.play();
-                    } else if (randomNumber == 2) {
-                        zombieDies3.play();
-                    } 
-
-
-                // const particles = this.add.particles('smoke');
-                // emitter = particles.createEmitter({
-                //     positionX: zombie.x,
-                //     positionY: zombie.y,
-                //     velocity: 0.1,
-                //     speed: 100,
-                //     spread: 0,
-                //     scale: 0.015,
-                //     lifespan: 200,
-                //     blendMode: "ADD"
-                // });
-            
-                // emitter.startFollow(bullet);
-
+                if (randomNumber == 0) {
+                    zombieDies.play();
+                } else if (randomNumber == 1) {
+                    zombieDies2.play();
+                } else if (randomNumber == 2) {
+                    zombieDies3.play();
+                } 
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
