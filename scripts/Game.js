@@ -1,13 +1,13 @@
 //Declare global variables
-let gunshotSound, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
-import zombiePng from "../assets/zombiebasic.png";
-import bulletPng from "../assets/flaming_bullet.png";
+// import zombiePng from "../assets/zombiebasic.png";
+import bulletPng from "../assets/blue_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
 import roof2ImageSrc from "../assets/roof2.jpg";
@@ -16,8 +16,23 @@ import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import zombieAtlas from "../assets/zombiebasic.json";
-import bellsAudio from "url:../assets/Bells.mp3";
+// import smokeParticle from "../assets/smoke_particle.png";
 
+
+import bellsAudio from "url:../assets/Bells.mp3";
+import carAlarmAudio from "url:../assets/car-alarm.mp3";
+import zombieHordeAudio from "url:../assets/zombie-horde.mp3";
+import standardZombieAudio from "url:../assets/breathing-zombie.mp3";
+import longerStandardZombieAudio from "url:../assets/breathing-zombie-long.mp3";
+import aggressiveZombieAudio from "url:../assets/aggressive-zombie.mp3";
+import shortZombieAudio from "url:../assets/short-attack.mp3";
+import shortZombieAudio2 from "url:../assets/short-attack-2.mp3";
+import shortZombieAudio3 from "url:../assets/short-attack-3.mp3";
+import hordeScreamAudio from "url:../assets/horde-scream.mp3";
+import gunshotAudio from "url:../assets/gunshotSound.mp3";
+import zombieDiesAudio from "url:../assets/ZombieDies.mp3";
+import zombieDiesAudio2 from "url:../assets/ZombieDies2.mp3";
+import zombieDiesAudio3 from "url:../assets/ZombieDies3.mp3";
 
 class Game extends Phaser.Scene {
     constructor() { 
@@ -29,13 +44,14 @@ class Game extends Phaser.Scene {
 
         this.load.image("player", playerImageSrc);
         this.load.image("bg", bgImageSrc);
-        this.load.image("flaming_bullet", bulletPng);
+        this.load.image("blue_bullet", bulletPng);
         this.load.image("car", carPng);
         this.load.image("roof1", roof1ImageSrc);
         this.load.image("roof2", roof2ImageSrc);
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
+        // this.load.image("smoke", smokeParticle);
 
         //Audios
         // this.load.audio("gunshotSound", gunShot);
@@ -52,6 +68,19 @@ class Game extends Phaser.Scene {
           );
 
         this.load.audio('bells', bellsAudio);
+        this.load.audio("carAlarm", carAlarmAudio);
+        this.load.audio("zombieHorde", zombieHordeAudio);
+        this.load.audio("standardZombie", standardZombieAudio);
+        this.load.audio("longerStandardZombie", longerStandardZombieAudio);
+        this.load.audio("fasterZombieAudio", aggressiveZombieAudio);
+        this.load.audio("fasterZombie1", shortZombieAudio);
+        this.load.audio("fasterZombie2", shortZombieAudio2);
+        this.load.audio("fasterZombie3", shortZombieAudio3);
+        this.load.audio("hordeScream", hordeScreamAudio);
+        this.load.audio("gunshot", gunshotAudio);
+        this.load.audio("zombieDies", zombieDiesAudio);
+        this.load.audio("zombieDies2", zombieDiesAudio2);
+        this.load.audio("zombieDies3", zombieDiesAudio3);
     }
 
     create() {
@@ -76,8 +105,20 @@ class Game extends Phaser.Scene {
         this.add.tileSprite(0, 0, positions.centerX * 4, positions.centerY * 4, "bg");
 
         //Create sounds
-        playBells = this.sound.add('bells' );
         gunshotSound = this.sound.add("gunshotSound", {loop:false, volume:0.05});
+        carAlarm = this.sound.add("carAlarm", {loop: false}, {volume: 1});
+        zombieHorde = this.sound.add("zombieHorde", { loop: false}, {volume: 4});
+        standardZombie = this.sound.add("standardZombie", { loop: false}, {volume: .2});
+        standardZombieLong = this.sound.add("longerStandardZombie", { loop: true}, {volume: .3});
+        fasterZombieAudio = this.sound.add("fasterZombieAudio", { loop: false}, {volume: .2});
+        fasterShorterZombieAudio = this.sound.add("fasterZombie1", { loop: false}, {volume: .2});
+        fasterShorterZombieAudio2 = this.sound.add("fasterZombie2", { loop: false}, {volume: .2});
+        fasterShorterZombieAudio3 = this.sound.add("fasterZombie3", { loop: false}, {volume: .2});
+        hordeScream = this.sound.add("hordeScream", { loop: false}, {volume: 1});
+        gunshotSound = this.sound.add("gunshot", { loop: false}, {volume: .05});
+        zombieDies = this.sound.add("zombieDies", { loop: false});
+        zombieDies2 = this.sound.add("zombieDies2", { loop: false});
+        zombieDies3 = this.sound.add("zombieDies3", { loop: false});
 
 
 ////////// ROOFS //////////
@@ -198,6 +239,7 @@ class Game extends Phaser.Scene {
         //Create zombie groups
         zombies = this.physics.add.group();
         fastZombies = this.physics.add.group();
+        standardZombieLong.play();
 
         //Initialise variables for game timer
         this.resources = 0;
@@ -238,6 +280,10 @@ class Game extends Phaser.Scene {
  ////////// CREATING HORDE //////////
             currentTime = this.resources;
             this.physics.add.collider(this.cars, bullet, function () {
+                
+                carAlarm.play();
+
+
                 let randomDirectionHorde = (Math.floor(Math.random() * 3));
                 let spread = 200;
                 let halfSpread = spread / 2;
@@ -264,21 +310,46 @@ class Game extends Phaser.Scene {
                             console.log("horde")
                         } 
                     }
+                    
                 }
             });
 
             thisGame.physics.add.collider([zombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
+
+                
+                let randomNumber = Math.floor(Math.random() * 2); 
+                    if (randomNumber == 0) {
+                        zombieDies.play();
+                    } else if (randomNumber == 1) {
+                        zombieDies2.play();
+                    } else if (randomNumber == 2) {
+                        zombieDies3.play();
+                    } 
+
+
+                // const particles = this.add.particles('smoke');
+                // emitter = particles.createEmitter({
+                //     positionX: zombie.x,
+                //     positionY: zombie.y,
+                //     velocity: 0.1,
+                //     speed: 100,
+                //     spread: 0,
+                //     scale: 0.015,
+                //     lifespan: 200,
+                //     blendMode: "ADD"
+                // });
+            
+                // emitter.startFollow(bullet);
+
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
                 zombie.destroy();
                 bullet.destroy();
+                zombieDies.play();
             });
-        
-
-
 
 ////////// MOVEMENT //////////
       
@@ -317,11 +388,23 @@ class Game extends Phaser.Scene {
             let randomZombieSpawn = (Math.floor(Math.random() * 1000));
             if (randomZombieSpawn > 970) {
                 chooseZombieDirection(zombies, "zombiebasic");
+                
             }
 
             let randomFastZombieSpawn = (Math.floor(Math.random() * 1000));
             if (randomFastZombieSpawn > 990) {
                 chooseZombieDirection(fastZombies, "zombiebasic");
+                    let randomNumber = Math.floor(Math.random() * 4); 
+                    if (randomNumber == 0) {
+                        fasterShorterZombieAudio.play()
+                    } else if (randomNumber == 1) {
+                        fasterShorterZombieAudio2.play()
+                    } else if (randomNumber == 2) {
+                        fasterShorterZombieAudio3.play()
+                    } else if (randomNumber == 3) {
+                        fasterZombieAudio.play()
+                    } 
+                        console.log(randomNumber);     
             }
 
             moveAllZombies();
@@ -360,6 +443,10 @@ const turnZombies = function (type) {
 //Collision event for player and zombies
 function bounce(player, zombie) {
     this.scene.start('GameOverScene', {timePlayerSurvived : this.resources})
+    standardZombieLong.pause();
+    zombieHorde.pause();
+    carAlarm.pause();
+    fasterShorterZombieAudio.pause();
 }
 
 
@@ -400,6 +487,7 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
+    
 }
 
 function spawnZombieHorde(type, ref, posX, posY){
@@ -407,16 +495,21 @@ function spawnZombieHorde(type, ref, posX, posY){
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
+
+    zombieHorde.play();
+    hordeScream.play();
 }
 
 //Create and launch a bullet
 function fireBullet() {
-    let y = 500 * Math.sin((Math.PI * 2 * player.angle) / 360);
-    let x = 500 * Math.cos((Math.PI * 2 * player.angle) / 360);
 
     gunshotSound.play();
 
-    bullet = thisGame.physics.add.sprite(player.x, player.y, "flaming_bullet")
+    let y = 800 * Math.sin((Math.PI * 2 * player.angle) / 360);
+    let x = 800 * Math.cos((Math.PI * 2 * player.angle) / 360);
+
+
+    bullet = thisGame.physics.add.sprite(player.x, player.y, "blue_bullet").setScale(1.2);
     bullet.setVelocity(x, y);
 }
 
