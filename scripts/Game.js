@@ -538,7 +538,7 @@ function chooseZombieDirection(type, ref) {
 
 //Create a zombie when called
 function spawnZombie(type, ref, posX, posY){
-    let newZombie = type.create(posX, posY, ref).setScale(0.65);
+    let newZombie = type.get(posX, posY, ref).setScale(0.65);
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
@@ -555,7 +555,7 @@ function spawnZombie(type, ref, posX, posY){
 }
 
 function spawnZombieHorde(type, ref, posX, posY){
-    let newZombie = type.create(posX, posY, ref).setScale(0.65);
+    let newZombie = type.get(posX, posY, ref).setScale(0.65);
     newZombie.anims.play(ref);
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
