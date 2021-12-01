@@ -16,7 +16,7 @@ import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import zombieAtlas from "../assets/zombiebasic.json";
-// import smokeParticle from "../assets/smoke_particle.png";
+import smokeParticle from "../assets/smoke_particle.png";
 
 
 import bellsAudio from "url:../assets/Bells.mp3";
@@ -51,10 +51,9 @@ class Game extends Phaser.Scene {
         this.load.image("tree", treePng);
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
-        // this.load.image("smoke", smokeParticle);
+        this.load.image("smoke", smokeParticle);
 
         //Audios
-        // this.load.audio("gunshotSound", gunShot);
         this.load.audio("gunshotSound", gunShot);
 
 
@@ -369,6 +368,18 @@ class Game extends Phaser.Scene {
                 zombie.destroy();
                 bullet.destroy();
                 zombieDies.play();
+                let emitter;
+                emitter = thisGame.add.particles('smoke').setDepth(10).createEmitter({
+                    x: zombie.x,
+                    y: zombie.y,
+                    speed: { min: -400, max: 400 },
+                    scale: { start: 0.3, end: 0.7 },
+                    blendMode: 'ADD',
+                    alpha: 0.7,
+                    lifespan: 1800,
+                    tint: [ 0xa3c010 ],
+                });
+                emitter.maxParticles = 70;
             });
 
 ////////// MOVEMENT //////////
@@ -522,7 +533,6 @@ function spawnZombie(type, ref, posX, posY){
     newZombie.body.setCircle(20);
     newZombie.setOffset(5, 5);
     
-
     if (blobZombies.contains(newZombie)) {
         newZombie.setScale(1.2);
         newZombie.setTint(0xa3c010);
@@ -532,10 +542,6 @@ function spawnZombie(type, ref, posX, posY){
         newZombie.setScale(0.4);
         newZombie.setTint(0xd0e429);
     };
-
-    // if (type == blobZombies) {
-
-    // }
 }
 
 function spawnZombieHorde(type, ref, posX, posY){
