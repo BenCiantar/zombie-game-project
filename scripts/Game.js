@@ -1,5 +1,5 @@
 //Declare global variables
-let zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let timedEvent, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 
@@ -17,6 +17,7 @@ import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import zombieAtlas from "../assets/zombiebasic.json";
 import smokeParticle from "../assets/smoke_particle.png";
+import bloodParticle from "../assets/blood_drop.png";
 
 
 import bellsAudio from "url:../assets/Bells.mp3";
@@ -52,6 +53,7 @@ class Game extends Phaser.Scene {
         this.load.image("tree2", tree2Png);
         this.load.image("shadow", treeShadowPng);
         this.load.image("smoke", smokeParticle);
+        this.load.image("blood", bloodParticle);
 
         //Audios
         this.load.audio("gunshotSound", gunShot);
@@ -330,7 +332,26 @@ class Game extends Phaser.Scene {
                     zombieDies2.play();
                 } else if (randomNumber == 2) {
                     zombieDies3.play();
-                } 
+                }
+                
+                let emitter;
+                emitter = thisGame.add.particles('blood').setDepth(10).createEmitter({
+                    x: zombie.x,
+                    y: zombie.y,
+                    scale: 0.2,
+                    speed: { min: -100, max: 100 },
+                    scale: { start: 0.7, end: 0.3 },
+                    blendMode: 'ADD',
+                    // alpha: 1,
+                    // lifespan: 170,
+                    maxParticles: 30,
+                    tint: [ 0x980002 ],
+                });
+                // console.log(thisGame.time)
+                // console.log(Phaser.timer);
+                // emitter.maxParticles = 10;
+                // timedEvent = thisGame.time.addEvent({ delay: 50000, callback: killEmitter(emitter), callbackScope: thisGame, loop: false });
+                // thisGame.time.addEvent(5000, console.log("kill emitter"), thisGame);
             });
 
             thisGame.physics.add.collider([fastZombies], bullet, function (zombie, bullet) {
@@ -550,5 +571,4 @@ function fireBullet() {
     bullet = thisGame.physics.add.sprite(player.x, player.y, "blue_bullet").setScale(1.2);
     bullet.setVelocity(x, y);
 }
-
 
