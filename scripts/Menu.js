@@ -42,24 +42,35 @@ class Menu extends Phaser.Scene {
     const logo = this.add.image(positions.centerX, positions.centerY - 100, "logo");
     logo.setScale(1.2);
 
-    const wasd = this.add.image(positions.centerX +550, positions.centerY + 300, "wasd");
+    const wasd = this.add.image(positions.centerX -650, positions.centerY + 300, "wasd");
     wasd.setScale(.18)
-    wasd.setAlpha(.8);
+    wasd.setAlpha(.6);
 
     const clickHere = this.add.image(positions.centerX +700, positions.centerY + 300, "mouse");
     clickHere.setScale(.3)
-    clickHere.setAlpha(.8);
+    clickHere.setAlpha(.6);
 
-    const startGameButton = this.add.text(positions.centerX, positions.centerY + 150, 'Start Game!', { 
+    const startGameButton = this.add.text(positions.centerX, positions.centerY + 100, 'Start Game!', { 
         fill: '#FFFFFF', 
         fontSize: 50,
         color: "#FFFFFF",
     }).setOrigin(0.5);
 
+    const addDescription = this.add.text(positions.centerX, positions.centerY -35, 
+        'Shoot the zombies. Survive as long as you can.'
+        , { 
+        fill: '#72BC65', 
+        fontSize: 25,
+        color: "#72BC65",
+    }).setOrigin(0.5);
+
+
     startGameButton.setInteractive({ useHandCursor: true  });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
     startGameButton.on('pointerup', () => { backgroundMusicIntro.stop(); });
     };
+
+    
 
 
     update() {

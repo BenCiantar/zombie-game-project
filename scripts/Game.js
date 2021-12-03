@@ -260,8 +260,8 @@ class Game extends Phaser.Scene {
 
     update(time, delta) {
         if (gameStarted) {
-            previousText.setText("Previous: " + scoresArray[0] + "s")
-            timeText.setText("Time Survived: " + this.resources + "s"); 
+            previousText.setText("Previous: " + scoresArray[0] + " s")
+            timeText.setText("Time Survived: " + this.resources + " s"); 
         
             //Count time between frames and add them together, then add one to seconds when ms reaches 1000
             this.timer += delta;
