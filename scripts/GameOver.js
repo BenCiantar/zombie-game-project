@@ -32,13 +32,13 @@ class GameOver extends Phaser.Scene {
         thisGameOver = this;
 
         timeSurvivedText = this.add.text(positions.centerX, positions.centerY -150, 'You survived: ' + timePlayerSurvived + ' seconds', { 
-            fill: '#FFFFFF', 
+            fill: '#72BC65', 
             fontSize: 50,
             color: "#FFFFFF",
         }).setOrigin(0.5);
 
         highestScoreText = this.add.text(positions.centerX, positions.centerY -220, "Highest score: " + getHighestScore() + " seconds", {
-            fill: '#FFFFFF', 
+            fill: '#E2E2E2', 
             fontSize: 50,
             color: "#FFFFFF",
         }).setOrigin(0.5);
