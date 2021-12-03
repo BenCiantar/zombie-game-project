@@ -2,7 +2,9 @@
 let positions, thisMenu, backgroundMusicIntro;
 
 import logoImgSrc from "../assets/logo13.png";
-    import menuMusic from "url:../assets/Audio/backgroundSuspenseMusic.mp3";
+import menuMusic from "url:../assets/Audio/backgroundSuspenseMusic.mp3";
+import wasdPng from "../assets/wasd.png";
+import mousePng from "../assets/mouse.png";
 
 
 
@@ -15,6 +17,8 @@ class Menu extends Phaser.Scene {
     preload() {
         this.load.image("logo", logoImgSrc);
         this.load.audio("backgroundSuspenseMusic", menuMusic);
+        this.load.image("wasd", wasdPng);
+        this.load.image("mouse", mousePng);
 
     }
 
@@ -38,6 +42,14 @@ class Menu extends Phaser.Scene {
     const logo = this.add.image(positions.centerX, positions.centerY - 100, "logo");
     logo.setScale(1.2);
 
+    const wasd = this.add.image(positions.centerX +550, positions.centerY + 300, "wasd");
+    wasd.setScale(.18)
+    wasd.setAlpha(.8);
+
+    const clickHere = this.add.image(positions.centerX +700, positions.centerY + 300, "mouse");
+    clickHere.setScale(.3)
+    clickHere.setAlpha(.8);
+
     const startGameButton = this.add.text(positions.centerX, positions.centerY + 150, 'Start Game!', { 
         fill: '#FFFFFF', 
         fontSize: 50,
@@ -47,7 +59,7 @@ class Menu extends Phaser.Scene {
     startGameButton.setInteractive({ useHandCursor: true  });
     startGameButton.on('pointerup', () => { this.scene.start('GameScene'); });
     startGameButton.on('pointerup', () => { backgroundMusicIntro.stop(); });
-    }
+    };
 
 
     update() {
