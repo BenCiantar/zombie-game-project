@@ -42,7 +42,7 @@ class Menu extends Phaser.Scene {
     const logo = this.add.image(positions.centerX, positions.centerY - 100, "logo");
     logo.setScale(1.2);
 
-    const wasd = this.add.image(positions.centerX +550, positions.centerY + 300, "wasd");
+    const wasd = this.add.image(positions.centerX -650, positions.centerY + 300, "wasd");
     wasd.setScale(.18)
     wasd.setAlpha(.8);
 
