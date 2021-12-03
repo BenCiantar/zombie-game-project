@@ -1,5 +1,5 @@
 //Declare global variables
-let positions, time, thisGameOver, gameOverText, timeSurvivedText, playAgainButton, timePlayerSurvived;
+let positions, time, thisGameOver, gameOverText, timeSurvivedText, playAgainButton, timePlayerSurvived, scoresArray, highestScoreText;
 
 class GameOver extends Phaser.Scene {
     constructor() { 
@@ -18,6 +18,7 @@ class GameOver extends Phaser.Scene {
 
 
     create() {
+        createScoresArray();
         
         positions = {
             centerX: this.physics.world.bounds.width / 2,
@@ -30,7 +31,13 @@ class GameOver extends Phaser.Scene {
 
         thisGameOver = this;
 
-        timeSurvivedText = this.add.text(positions.centerX, positions.centerY -150, 'You survived ' + timePlayerSurvived + ' seconds', { 
+        timeSurvivedText = this.add.text(positions.centerX, positions.centerY -150, 'You survived: ' + timePlayerSurvived + ' seconds', { 
+            fill: '#FFFFFF', 
+            fontSize: 50,
+            color: "#FFFFFF",
+        }).setOrigin(0.5);
+
+        highestScoreText = this.add.text(positions.centerX, positions.centerY -220, "Highest score: " + getHighestScore() + " seconds", {
             fill: '#FFFFFF', 
             fontSize: 50,
             color: "#FFFFFF",
@@ -44,13 +51,27 @@ class GameOver extends Phaser.Scene {
 
         playAgainButton.setInteractive({ useHandCursor: true  });
         playAgainButton.on('pointerup', () => { this.scene.start('GameScene'); });
+
+
+        
     }
 
 
     update() {
         
     }
+
+
     
+}
+
+function createScoresArray() {
+    scoresArray = JSON.parse(localStorage.getItem("scoresArrayLocal")); 
+  }
+
+function getHighestScore() {
+    let max = Math.max(...scoresArray);
+    return max;
 }
 
 export default GameOver;
