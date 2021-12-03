@@ -1,5 +1,5 @@
 //Declare global variables
-let timedEvent, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let timedEvent, scoresArray, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, previousText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
 
 
 
@@ -87,6 +87,10 @@ class Game extends Phaser.Scene {
     create() {
         gameStarted = true; //Set this to the startgame button on the menu
         thisGame = this;
+
+        checkLocalStorageDataExists();
+        createScoresArray();
+
 
         //Fixing the audio for the menu:
         
@@ -192,8 +196,12 @@ class Game extends Phaser.Scene {
 
 ////////// TIMER TEXT //////////
 
-        var timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
-        timeText = this.add.text(60,60, "Time Survived: ", timeTextStyle); //Elapsed Time Text
+        let previousTimeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
+        previousText = this.add.text(50,45, "Previous: ", previousTimeTextStyle); //Previous Time Text
+        previousText.setDepth(1);
+
+        let timeTextStyle = {font: "32px", fill: '#FFFFFF', stroke: '#000', strokeThickness: 4}; 
+        timeText = this.add.text(50,90, "Time Survived: ", timeTextStyle); //Elapsed Time Text
         timeText.setDepth(1);
       
 ////////// PLAYER //////////
@@ -252,7 +260,8 @@ class Game extends Phaser.Scene {
 
     update(time, delta) {
         if (gameStarted) {
-            timeText.setText("Time Survived: " + this.resources + " seconds"); 
+            previousText.setText("Previous: " + scoresArray[0] + "s")
+            timeText.setText("Time Survived: " + this.resources + "s"); 
         
             //Count time between frames and add them together, then add one to seconds when ms reaches 1000
             this.timer += delta;
@@ -260,9 +269,6 @@ class Game extends Phaser.Scene {
                 this.resources += 1;
                 this.timer -= 1000;
             }
-
-            //Update timer
-            timeText.setText("Time Survived: " + this.resources + " seconds"); 
 
  ////////// COLLIDERS //////////
       
@@ -499,6 +505,7 @@ function bounce(player, zombie) {
     zombieHorde.pause();
     carAlarm.pause();
     fasterShorterZombieAudio.pause();
+    saveScoreTime();
 }
 
 
@@ -578,3 +585,23 @@ function fireBullet() {
     bullet.setVelocity(x, y);
 }
 
+
+//If the localstorage is empty, create the gamesArray, strignify it, and save it to local
+function checkLocalStorageDataExists() {
+    if (localStorage.length == 0) {
+      let scoresArray = [0];
+      localStorage.setItem("scoresArrayLocal", JSON.stringify(scoresArray));
+    }
+  }
+
+  //Retrieve the scoresArray from local storage
+  function createScoresArray() {
+    scoresArray = JSON.parse(localStorage.getItem("scoresArrayLocal")); 
+  }
+
+
+  function saveScoreTime () {
+      scoresArray.unshift(thisGame.resources);
+      localStorage.setItem("scoresArrayLocal", JSON.stringify(scoresArray));
+
+  }
