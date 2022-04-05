@@ -12,11 +12,13 @@
     "phaser": "^3.55.2"
   },
   "devDependencies": {
-    "parcel": "^2.0.1"
+    "parcel": "^2.0.1",
+    "parcel-bundler": "^1.12.5"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html -p 6767",
+    "build": "parcel build index.html",
     "moveassets": "ncp ./assets ./dist/assets --filter '**/*.*'"
   },
   "repository": {
