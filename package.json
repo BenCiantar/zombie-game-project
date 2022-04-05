@@ -9,11 +9,11 @@
     "ncp": "^2.0.0",
     "node-sass-middleware": "^0.11.0",
     "nodemon": "^2.0.14",
-    "phaser": "^3.55.2"
+    "phaser": "^3.55.2",
+    "parcel-bundler": "^1.12.5"
   },
   "devDependencies": {
-    "parcel": "^2.0.1",
-    "parcel-bundler": "^1.12.5"
+    "parcel": "^2.0.1"
   },
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
