@@ -6,7 +6,7 @@ let timedEvent, scoresArray, zombieDies3, zombieDies2, zombieDies, gunshotSound,
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
-// import zombiePng from "../assets/zombiebasic.png";
+import zombiePng from "../assets/zombiebasic.png";
 import bulletPng from "../assets/blue_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
