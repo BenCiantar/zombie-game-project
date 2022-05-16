@@ -1,12 +1,11 @@
 //Declare global variables
-let timedEvent, scoresArray, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, previousText, currentTime = 0, lastHordeTime = 0, timer, timePlayerSurvived;
+let scoresArray, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, previousText, currentTime = 0, lastHordeTime = 0;
 
 
 
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
-import zombiePng from "../assets/zombiebasic.png";
 import bulletPng from "../assets/blue_bullet.png";
 import carPng from "../assets/car.png";
 import roof1ImageSrc from "../assets/roof1.jpg";
@@ -15,10 +14,8 @@ import treePng from "../assets/tree.png";
 import tree2Png from "../assets/tree2.png";
 import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
-import zombieAtlas from "../assets/zombiebasic.json";
 import smokeParticle from "../assets/smoke_particle.png";
 import bloodParticle from "../assets/blood_drop.png";
-
 
 import bellsAudio from "url:../assets/Bells.mp3";
 import carAlarmAudio from "url:../assets/car-alarm.mp3";
@@ -55,18 +52,13 @@ class Game extends Phaser.Scene {
         this.load.image("smoke", smokeParticle);
         this.load.image("blood", bloodParticle);
 
-        //Audios
         this.load.audio("gunshotSound", gunShot);
-
-
-
-        //Something else xd juajua haha xDXXDXDXDXD
 
         this.load.multiatlas(
             "zombiebasic",
-            "./assets/zombiebasic.json",
+            "../assets/zombiebasic.json",
             "assets"
-          );
+        );
 
         this.load.audio('bells', bellsAudio);
         this.load.audio("carAlarm", carAlarmAudio);
