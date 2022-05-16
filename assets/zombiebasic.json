@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "zombiebasic.png",
+			"image": "assets/zombiebasic.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 376,

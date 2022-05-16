@@ -57,8 +57,7 @@ class Game extends Phaser.Scene {
 
         this.load.multiatlas(
             "zombiebasic",
-            zombieJSON,
-            "assets"
+            zombieJSON
         );
 
         this.load.audio('bells', bellsAudio);
@@ -83,11 +82,6 @@ class Game extends Phaser.Scene {
 
         checkLocalStorageDataExists();
         createScoresArray();
-
-
-        //Fixing the audio for the menu:
-        
-
 
         //Create object that contains helpful positions
         positions = {
