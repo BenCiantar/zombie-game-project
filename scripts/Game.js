@@ -56,8 +56,8 @@ class Game extends Phaser.Scene {
 
         this.load.multiatlas(
             "zombiebasic",
-            "../assets/zombiebasic.json",
-            "../assets/"
+            "url:../assets/zombiebasic.json",
+            "url:../assets/"
         );
 
         this.load.audio('bells', bellsAudio);
