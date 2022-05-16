@@ -18,7 +18,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html -p 6767",
-    "build": "parcel build index.html",
+    "build": "parcel build index.html --out-dir dist",
     "moveassets": "ncp ./assets ./dist/assets --filter '**/*.*'"
   },
   "repository": {
