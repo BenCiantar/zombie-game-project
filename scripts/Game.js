@@ -16,6 +16,10 @@ import smokeParticle from "../assets/smoke_particle.png";
 import bloodParticle from "../assets/blood_drop.png";
 import zombieJSON from "../assets/zombiebasic.json";
 
+import zb from "../assets/zombiebasic.png";
+
+zombieJSON.textures[0].image = zb;
+
 import bellsAudio from "url:../assets/Bells.mp3";
 import carAlarmAudio from "url:../assets/car-alarm.mp3";
 import zombieHordeAudio from "url:../assets/zombie-horde.mp3";
