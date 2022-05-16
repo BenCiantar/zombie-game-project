@@ -1,8 +1,6 @@
 //Declare global variables
 let scoresArray, zombieDies3, zombieDies2, zombieDies, gunshotSound, hordeScream, fasterShorterZombieAudio3, fasterShorterZombieAudio2, fasterShorterZombieAudio, fasterZombieAudio, standardZombieLong, standardZombie, zombieHorde, carAlarm, playBells, positions, player, gameStarted, playerControls, zombies, fastZombies, blobZombies, thisGame, bullet, timeText, previousText, currentTime = 0, lastHordeTime = 0;
 
-
-
 //Import assets
 import playerImageSrc from "../assets/player_9mm.png";
 import bgImageSrc from "../assets/bg-mud.png";
