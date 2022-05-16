@@ -4,8 +4,6 @@
   "description": "",
   "main": "index.js",
   "dependencies": {
-    "ncp": "^2.0.0",
-    "node-sass-middleware": "^0.11.0",
     "nodemon": "^2.0.14",
     "parcel": "^2.5.0",
     "phaser": "^3.55.2"
@@ -13,7 +11,7 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "start": "parcel index.html -p 6767",
-    "build": "parcel build index.html --out-dir dist",
+    "build": "parcel build index.html",
     "moveassets": "ncp ./assets ./dist/assets --filter '**/*.*'"
   },
   "repository": {
