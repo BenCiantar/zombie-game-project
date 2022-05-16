@@ -2,7 +2,6 @@
   "name": "zombie-game-project",
   "version": "1.0.0",
   "description": "",
-  "main": "index.js",
   "dependencies": {
     "nodemon": "^2.0.14",
     "parcel": "^2.5.0",
