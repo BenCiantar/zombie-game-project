@@ -1,7 +1,7 @@
 {
 	"textures": [
 		{
-			"image": "url:../assets/zombiebasic.png",
+			"image": "../assets/zombiebasic.png",
 			"format": "RGBA8888",
 			"size": {
 				"w": 376,
@@ -10,7 +10,7 @@
 			"scale": 1,
 			"frames": [
 				{
-					"filename": "zombiebasic1.png",
+					"filename": "../assets/zombiebasic1.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -31,7 +31,7 @@
 					}
 				},
 				{
-					"filename": "zombiebasic2.png",
+					"filename": "../assets/zombiebasic2.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -52,7 +52,7 @@
 					}
 				},
 				{
-					"filename": "zombiebasic4.png",
+					"filename": "../assets/zombiebasic4.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -73,7 +73,7 @@
 					}
 				},
 				{
-					"filename": "zombiebasic5.png",
+					"filename": "../assets/zombiebasic5.png",
 					"rotated": false,
 					"trimmed": false,
 					"sourceSize": {
@@ -94,7 +94,7 @@
 					}
 				},
 				{
-					"filename": "zombiebasic3.png",
+					"filename": "../assets/zombiebasic3.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
@@ -115,7 +115,7 @@
 					}
 				},
 				{
-					"filename": "zombiebasic6.png",
+					"filename": "../assets/zombiebasic6.png",
 					"rotated": false,
 					"trimmed": true,
 					"sourceSize": {
