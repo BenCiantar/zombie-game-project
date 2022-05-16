@@ -16,6 +16,7 @@ import treeShadowPng from "../assets/treeshadow.png";
 import gunShot from "url:../assets/Audio/gunshotSound.mp3"
 import smokeParticle from "../assets/smoke_particle.png";
 import bloodParticle from "../assets/blood_drop.png";
+import zombieJSON from "../assets/zombiebasic.json";
 
 import bellsAudio from "url:../assets/Bells.mp3";
 import carAlarmAudio from "url:../assets/car-alarm.mp3";
@@ -56,8 +57,8 @@ class Game extends Phaser.Scene {
 
         this.load.multiatlas(
             "zombiebasic",
-            "url:../assets/zombiebasic.json",
-            "url:../assets/"
+            zombieJSON,
+            "assets"
         );
 
         this.load.audio('bells', bellsAudio);
