@@ -2,7 +2,7 @@
 let positions, thisMenu, backgroundMusicIntro;
 
 import logoImgSrc from "../assets/logo13.png";
-import menuMusic from "url:../assets/Audio/backgroundSuspenseMusic.mp3";
+import menuMusic from "url:../assets/Audio/BackgroundSuspenseMusic.mp3";
 import wasdPng from "../assets/wasd.png";
 import mousePng from "../assets/mouse.png";
 
